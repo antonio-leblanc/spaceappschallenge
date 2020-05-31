@@ -20,9 +20,11 @@ export class MapComponent implements OnInit {
   public brStates: any;
   public info: any;
   public chart: any;
+  public chart2: any;
   public plotData: any;
   public covidData: any;
   public mobData: any;
+  public ecoData: any;
   public imgData: any;
 
 //
@@ -36,7 +38,31 @@ export class MapComponent implements OnInit {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
 
-    this.brStates = L.geoJSON(this.http.getBRstates()).addTo(this.map)
+    this.brStates = await this.http.get('assets/data/states_brazil.json')
+    this.brStates = L.geoJSON(this.brStates,
+      {
+        style: (feature) => {
+        return {
+          // weight: 2,
+          // opacity: 1,
+          // color: 'white',
+          // dashArray: '3',
+          // fillOpacity: 0.7,
+          // fillColor: 'blue'
+        }},
+        onEachFeature: (feature, layer) => {
+          layer.on({
+            mouseover: this.highlightFeature,
+            mouseout: (e) => {
+              this.brStates.resetStyle(e.target)
+              this.info.update();
+            }
+          })
+        }
+      }
+
+
+      ).addTo(this.map)
 
     this.usStates = L.geoJson(this.http.getUSstates(),
       {
@@ -86,26 +112,25 @@ export class MapComponent implements OnInit {
     this.info = L.control();
 
     this.info.onAdd = function (map) {
-      this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+      this._div = L.DomUtil.create('div', 'info');
       this.update();
       return this._div;
     };
 
-    // method that we will use to update the control based on feature properties passed
     this.info.update = function (props) {
       this._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
-        '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+        '<b>' + props.nome_uf + '</b><br />' + props.regiao
         : 'Hover over a state');
     };
 
     this.info.addTo(this.map);
 
 
-    this.plotData = await this.http.get(this._jsonURL);
-    this.covidData = await this.http.get('assets/data/covidData.json');
-    this.mobData = await this.http.get('assets/data/mobilityData.json');
-    this.imgData = await this.http.get('assets/data/imageData.json');
-
+    this.plotData =  await this.http.get(this._jsonURL);
+    this.covidData =  await this.http.get('assets/data/covidData.json');
+    this.mobData =  await this.http.get('assets/data/mobilityData.json');
+    this.ecoData =  await this.http.get('assets/data/ecoData.json');
+    this.imgData =  await this.http.get('assets/data/imageData.json');
     this.chartit();
 
   }
@@ -169,9 +194,6 @@ export class MapComponent implements OnInit {
         data: this.mobData.datasets[2].data,
         yAxisID: "y-axis-2"
         },
-
-
-
       ]
     };
 
@@ -222,6 +244,54 @@ export class MapComponent implements OnInit {
         }
       }
     })
+    let lineChartData2 = {
+      labels: this.ecoData.labels,
+      datasets: [
+        {
+        label: this.ecoData.datasets[0].label,
+        borderColor: color(covid_colors[0]).rgbString(),
+        backgroundColor: color(covid_colors[0]).rgbString(),
+        fill: false,
+        data: this.ecoData.datasets[0].data,
+        yAxisID: "y-axis-1",
+        }]
+      };
+
+    this.chart2 = new Chart('canvas2', {
+      type: "line",
+      data: lineChartData2,
+      options: {
+        responsive: true,
+        hoverMode: 'index',
+        stacked: false,
+        title: {
+          display: true,
+          text: 'Disease Spread and Mobility changes Over Time'
+        },
+        scales: {
+          yAxes: [
+            {
+            type: "linear",
+            display: true,
+            position: "left",
+            id: "y-axis-1",
+            ticks: {fontColor: color('red').rgbString()}
+            }, {
+            type: "linear",
+            display: true,
+            position: "right",
+            id: "y-axis-2",
+            gridLines: {drawOnChartArea: false},
+            ticks: {
+              beginAtZero: false,
+              min: -100,
+              max: 100,
+              fontColor: color('green').rgbString()
+            }
+          }],
+        }
+      }
+    })
   }
 
   getColor(d) {
@@ -240,7 +310,7 @@ export class MapComponent implements OnInit {
 
     layer.setStyle({
       weight: 5,
-      color: '#666',
+      // color: '#666',
       dashArray: '',
       fillOpacity: 0.7
     });
@@ -249,7 +319,7 @@ export class MapComponent implements OnInit {
       layer.bringToFront();
     }
 
-    console.log(this)
+    console.log(layer.feature.properties)
     this.info.update(layer.feature.properties)
   }
 

@@ -100,43 +100,42 @@ export class MapComponent implements OnInit {
 
 
     this.plotData =  await this.http.get(this._jsonURL);
-    this.covidData =  await this.http.get('assets/data/teste.json');
+    this.covidData =  await this.http.get('assets/data/covidData.json');
 
     this.chartit();
     
   }
-
 
   chartit() {
     var color = Chart.helpers.color;
     var timeFormat = 'MM/DD/YYYY HH:mm';
 
     let lineChartData = {
-      labels: this.plotData.labels,
+      labels: this.covidData.labels,
       datasets: [
         {
-        label: this.plotData.datasets[0].label,
+        label: this.covidData.datasets[0].label,
         borderColor: color('red').alpha(0.5).rgbString(),
         backgroundColor: color('red').alpha(0.5).rgbString(),
         fill: false,
-        data: this.plotData.datasets[0].data,
+        data: this.covidData.datasets[0].data,
         yAxisID: "y-axis-1",
         }, 
         {
-        label: this.plotData.datasets[1].label,
+        label: this.covidData.datasets[1].label,
         borderColor: color('blue').alpha(0.5).rgbString(),
         backgroundColor: color('blue').alpha(0.5).rgbString(),
         fill: false,
-        data: this.plotData.datasets[1].data,
-        yAxisID: "y-axis-2"
+        data: this.covidData.datasets[1].data,
+        yAxisID: "y-axis-1"
         },
         {
-        label: this.plotData.datasets[2].label,
+        label: this.covidData.datasets[2].label,
         borderColor: color('green').alpha(0.5).rgbString(),
         backgroundColor: color('green'),
         fill: false,
-        data: this.plotData.datasets[2].data,
-        yAxisID: "y-axis-3"
+        data: this.covidData.datasets[2].data,
+        yAxisID: "y-axis-1"
         }]
     };
 

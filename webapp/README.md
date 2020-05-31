@@ -1,28 +1,65 @@
-# spaceApps
-# SiDeploy
+# Space Panthers project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
+## Description
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+# Main Data Sources
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## `Global_Mobility_Report.csv`
 
-## Build
+|variable                                           |class     |description |
+|:--------------------------------------------------|:---------|:-----------|
+|country_region_code                                |character | country code |          
+|country_region                                     |character | coutry region |
+|sub_region_1                                       |character | name of sub region 1 |
+|sub_region_2                                       |character | name of sub region 2 |
+|date                                               |date      | date |
+|retail_and_recreation_percent_change_from_baseline |integer   | percentage change of retail and recreaction |
+|grocery_and_pharmacy_percent_change_from_baseline  |integer   | percentage change of grocery and pharmacy |
+|parks_percent_change_from_baseline                 |integer   | percentage change of parks |
+|transit_stations_percent_change_from_baseline      |integer   | percentage change of transit stations |
+|workplaces_percent_change_from_baseline            |integer   | percentage change of workplaces |
+|residential_percent_change_from_baseline           |integer   | percentage change of residential |
+ 
+** google.com acessed em 30/05/2020 **
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+# Shapefiles of the administrative areas
 
-## Running unit tests
+|File          |description     |
+|:-------------|:---------------|
+|BRA_adm.zip   | Brazil |
+|DEU_adm.zip   | Germany |
+|HKG_adm.zip   | Hong Kong |
+|JPN_adm.zip   | Japan |
+|NY.zip        | New York - USA |
+|SP.zip        | Sao Paulo state - Brazil |
+|SWE.zip       | Sweden |
+|USA.zip       | United States of America |
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Atmospheric Data
 
-## Running end-to-end tests
+## Source: Sentinel 5
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+The Sentinel-5 Precursor mission instrument collects data useful for assessing air quality. The TROPOMI instrument is a multispectral sensor that records reflectance of wavelengths important for measuring atmospheric concentrations of ozone, methane, formaldehyde, aerosol, carbon monoxide, nitrogen oxide, and sulphur dioxide, as well as cloud characteristics at a spatial resolution of 0.01 arc degrees.
 
-## Further help
+|Data                |description     |
+|:-------------------|:---------------|
+| Sentinel 5P - CH4  | Atmospheric methane (CH₄) concentration |
+| Sentinel 5P - CO   | Concentrations of Carbon monoxide (CO) |
+| Sentinel 5P - HCHO | Formaldehyde concentration |
+| Sentinel 5P - NIR  | Near infra red |
+| Sentinel 5P - NO2  | Total, tropospheric, and stratospheric nitrogen dioxide concentration |
+| Sentinel 5P - SO2  | Atmospheric sulphur dioxide (SO₂) concentration |
+| Sentinel 5P - Temp | Temperature  |
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Atmospheric data were used to infer human movement
+
+# Team
+
+- Antonio Leblanc - Software Developer
+- Beatriz Campos - Economist?
+- Samuel Souza Alcântara Queiroz - ?
+- Ricardo Bull - Software Developer - ?
+- Tiago de Conto - ?
+

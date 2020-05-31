@@ -25,7 +25,8 @@ export class MapComponent implements OnInit {
   public covidData: any;
   public mobData: any;
   public ecoData: any;
-  
+  public imgData: any;
+
 //
   async ngOnInit() {
     this.map = L.map('map', {
@@ -39,7 +40,7 @@ export class MapComponent implements OnInit {
 
     this.brStates = await this.http.get('assets/data/states_brazil.json')
     this.brStates = L.geoJSON(this.brStates,
-      {        
+      {
         style: (feature) => {
         return {
           // weight: 2,
@@ -57,10 +58,10 @@ export class MapComponent implements OnInit {
               this.info.update();
             }
           })
-        }  
+        }
       }
-      
-      
+
+
       ).addTo(this.map)
 
     this.usStates = L.geoJson(this.http.getUSstates(),
@@ -118,7 +119,7 @@ export class MapComponent implements OnInit {
 
     this.info.update = function (props) {
       this._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
-        '<b>' + props.nome_uf + '</b><br />' + props.regiao 
+        '<b>' + props.nome_uf + '</b><br />' + props.regiao
         : 'Hover over a state');
     };
 
@@ -129,7 +130,7 @@ export class MapComponent implements OnInit {
     this.covidData =  await this.http.get('assets/data/covidData.json');
     this.mobData =  await this.http.get('assets/data/mobilityData.json');
     this.ecoData =  await this.http.get('assets/data/ecoData.json');
-
+    this.imgData =  await this.http.get('assets/data/imageData.json');
     this.chartit();
 
   }
@@ -284,7 +285,7 @@ export class MapComponent implements OnInit {
             ticks: {
               beginAtZero: false,
               min: -100,
-              max: 100, 
+              max: 100,
               fontColor: color('green').rgbString()
             }
           }],

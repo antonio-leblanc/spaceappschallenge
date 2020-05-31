@@ -1,5 +1,9 @@
 @import "../../styles.scss";
 
+*{
+  box-sizing: border-box;
+}
+
 .map-container {
     position: absolute;
     top: 0;

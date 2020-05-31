@@ -110,8 +110,16 @@ export class MapComponent implements OnInit {
           backgroundColor: color('red').alpha(0.5).rgbString(),
 					borderColor: color('red'),
           fill:false,
-          lineTension:0.1}]},
-          options: {}}
+          lineTension:0.1},
+          {label:this.spData.datasets[1].label,
+            data:this.spData.datasets[1].data,
+            backgroundColor: color('blue').alpha(0.5).rgbString(),
+            borderColor: color('blue'),
+            fill:false,
+            lineTension:0.1}
+        ]},
+          options: {},
+        }
             // title: {
             //   text: 'Chart.js Time Scale'
             //   },

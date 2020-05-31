@@ -116,14 +116,14 @@ export class MapComponent implements OnInit {
       datasets: [{
         label: "My First dataset",
         borderColor: color('red').alpha(0.5).rgbString(),
-        backgroundColor: color('red'),
+        backgroundColor: color('red').alpha(0.5).rgbString(),
         fill: false,
         data: this.spData.datasets[0].data,
         yAxisID: "y-axis-1",
       }, {
         label: "My Second dataset",
         borderColor: color('blue').alpha(0.5).rgbString(),
-        backgroundColor: color('blue'),
+        backgroundColor: color('blue').alpha(0.5).rgbString(),
         fill: false,
         data: this.spData.datasets[1].data,
         yAxisID: "y-axis-2"
@@ -131,7 +131,7 @@ export class MapComponent implements OnInit {
         {
           label: "My Second dataset",
           borderColor: color('blue').alpha(0.5).rgbString(),
-          backgroundColor: color('blue'),
+          backgroundColor: color('blue').alpha(0.5).rgbString(),
           fill: false,
           data: this.spData.datasets[1].data,
           yAxisID: "y-axis-3"

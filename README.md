@@ -77,4 +77,4 @@ Atmospheric data were used to infer human movement
 - Laurent Cheret - Telecom Engineer
 - Ricardo Bull - Software Developer
 - Samuel Souza Alcântara Queiroz - Firmware Developer
-- Tiago de Conto - ?
+- Tiago de Conto - Software Developer

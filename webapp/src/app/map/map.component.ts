@@ -21,7 +21,7 @@ export class MapComponent implements OnInit {
   public info: any;
   public chart: any;
   public chart2: any;
-  public plotData: any;
+  public chart3: any;
   public covidData: any;
   public mobData: any;
   public ecoData: any;
@@ -126,7 +126,6 @@ export class MapComponent implements OnInit {
     this.info.addTo(this.map);
 
 
-    this.plotData =  await this.http.get(this._jsonURL);
     this.covidData =  await this.http.get('assets/data/covidData.json');
     this.mobData =  await this.http.get('assets/data/mobilityData.json');
     this.ecoData =  await this.http.get('assets/data/ecoData.json');
@@ -147,7 +146,7 @@ export class MapComponent implements OnInit {
   chartit() {
     var color = Chart.helpers.color;
     var timeFormat = 'MM/DD/YYYY HH:mm';
-    var covid_colors = ['#de2d26','#fc9272','#fee0d2'];
+    var covid_colors = ['#de2d26','#fc9272','#000'];
     var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
 
     let datasets = []
@@ -181,7 +180,8 @@ export class MapComponent implements OnInit {
     let lineChartData = {
       labels: this.covidData.labels,
       datasets: datasets};
-
+    
+    
     this.chart = new Chart('canvas', {
       type: "line",
       data: lineChartData,
@@ -219,10 +219,46 @@ export class MapComponent implements OnInit {
       }
     });
 
+    let imgdata_colors = ['#fc8d59','#99d594','#3288bd','#542788'];
     let datasets2 = []
+    for (let i = 0; i < 4; i++) {
+      console.log(i)
+      datasets2.push(
+        {
+        label: this.imgData.datasets[i].label,
+        borderColor: color(imgdata_colors[i]).rgbString(),
+        backgroundColor: color(imgdata_colors[i]).rgbString(),
+        fill: false,
+        data: this.imgData.datasets[i].data,
+        // yAxisID: "y-axis-1",
+        }
+      )
+    }
+
+
+    let lineChartData2 = {
+      labels: this.imgData.labels,
+      datasets: datasets2
+      };
+
+    this.chart2 = new Chart('canvas2', {
+      type: "line",
+      data: lineChartData2,
+      options: {
+        responsive: true,
+        hoverMode: 'index',
+        stacked: false,
+        title: {
+          display: true,
+          text: 'Satellite Image Information'
+        }
+      }
+    })
+
+    let datasets3 = []
 
     for (let i = 0; i < 2; i++) {
-      datasets2.push(
+      datasets3.push(
         {
         label: this.ecoData.datasets[i].label,
         borderColor: color(covid_colors[i]).rgbString(),
@@ -235,14 +271,14 @@ export class MapComponent implements OnInit {
     }
 
 
-    let lineChartData2 = {
+    let lineChartData3 = {
       labels: this.ecoData.labels,
-      datasets: datasets2
+      datasets: datasets3
       };
 
-    this.chart2 = new Chart('canvas2', {
+    this.chart3 = new Chart('canvas3', {
       type: "line",
-      data: lineChartData2,
+      data: lineChartData3,
       options: {
         responsive: true,
         hoverMode: 'index',
@@ -259,19 +295,8 @@ export class MapComponent implements OnInit {
             position: "left",
             id: "y-axis-1",
             ticks: {fontColor: color('red').rgbString()}
-            }, {
-            type: "linear",
-            display: true,
-            position: "right",
-            id: "y-axis-2",
-            gridLines: {drawOnChartArea: false},
-            ticks: {
-              beginAtZero: false,
-              min: -100,
-              max: 100,
-              fontColor: color('green').rgbString()
             }
-          }],
+          ],
         }
       }
     })
@@ -305,6 +330,9 @@ export class MapComponent implements OnInit {
     this.info.update(layer.feature.properties)
   }
 
+  toTop() {
+    window.scroll(0,0);
+  }
 }
 
 

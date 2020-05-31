@@ -106,7 +106,7 @@ export class MapComponent implements OnInit {
     var timeFormat = 'MM/DD/YYYY HH:mm';
 
     let lineChartData = {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      labels: this.spData.labels,
       datasets: [{
         label: "My First dataset",
         borderColor: color('red').alpha(0.5).rgbString(),

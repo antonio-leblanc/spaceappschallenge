@@ -21,6 +21,7 @@ export class MapComponent implements OnInit {
   public info: any;
   public chart: any;
   public plotData: any;
+  public covidData: any;
 
 //
   async ngOnInit() {
@@ -77,7 +78,7 @@ export class MapComponent implements OnInit {
       return div;
     };
 
-    legend.addTo(this.map);
+    // legend.addTo(this.map);
 
 
     this.info = L.control();
@@ -90,7 +91,7 @@ export class MapComponent implements OnInit {
 
     // method that we will use to update the control based on feature properties passed
     this.info.update = function (props) {
-      this._div.innerHTML = '<h4>US Population Density</h4>' + (props ?
+      this._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
         '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
         : 'Hover over a state');
     };
@@ -98,11 +99,11 @@ export class MapComponent implements OnInit {
     this.info.addTo(this.map);
 
 
-    this.http.getJSON(this._jsonURL).subscribe(data => {
-      this.plotData = data;
+    this.plotData =  await this.http.get(this._jsonURL);
+    this.covidData =  await this.http.get('assets/data/teste.json');
 
-      this.chartit();
-    });
+    this.chartit();
+    
   }
 
 
@@ -148,11 +149,11 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Chart.js Line Chart - Multi Axis'
+          text: 'Indicators Evolution Over Time'
         },
         scales: {
           yAxes: [{
-            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+            type: "linear",
             display: true,
             position: "left",
             id: "y-axis-1",
@@ -160,12 +161,12 @@ export class MapComponent implements OnInit {
               fontColor: color('red').alpha(0.5).rgbString()
             }
           }, {
-            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+            type: "linear",
             display: true,
             position: "right",
             id: "y-axis-2",
             gridLines: {
-              drawOnChartArea: false, // only want the grid lines for one axis to show up
+              drawOnChartArea: false,
             },
             ticks: {
               beginAtZero: false,
@@ -175,7 +176,7 @@ export class MapComponent implements OnInit {
             }
           },
             {
-              type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+              type: "linear",
               display: true,
               position: "right",
               id: "y-axis-3",
@@ -183,7 +184,7 @@ export class MapComponent implements OnInit {
                 drawOnChartArea: false, // only want the grid lines for one axis to show up
               },
               ticks: {
-                fontColor: color('blue').alpha(0.5).rgbString()
+                fontColor: color('green').alpha(0.5).rgbString()
               }
             }],
         }

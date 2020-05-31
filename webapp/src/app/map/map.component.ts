@@ -23,6 +23,7 @@ export class MapComponent implements OnInit {
   public plotData: any;
   public covidData: any;
   public mobData: any;
+  public imgData: any;
 
 //
   async ngOnInit() {
@@ -100,9 +101,10 @@ export class MapComponent implements OnInit {
     this.info.addTo(this.map);
 
 
-    this.plotData =  await this.http.get(this._jsonURL);
-    this.covidData =  await this.http.get('assets/data/covidData.json');
-    this.mobData =  await this.http.get('assets/data/mobilityData.json');
+    this.plotData = await this.http.get(this._jsonURL);
+    this.covidData = await this.http.get('assets/data/covidData.json');
+    this.mobData = await this.http.get('assets/data/mobilityData.json');
+    this.imgData = await this.http.get('assets/data/imageData.json');
 
     this.chartit();
 

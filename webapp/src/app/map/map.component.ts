@@ -112,28 +112,30 @@ export class MapComponent implements OnInit {
 
     let lineChartData = {
       labels: this.plotData.labels,
-      datasets: [{
+      datasets: [
+        {
         label: this.plotData.datasets[0].label,
         borderColor: color('red').alpha(0.5).rgbString(),
         backgroundColor: color('red'),
         fill: false,
         data: this.plotData.datasets[0].data,
         yAxisID: "y-axis-1",
-      }, {
+        }, 
+        {
         label: this.plotData.datasets[1].label,
         borderColor: color('blue').alpha(0.5).rgbString(),
         backgroundColor: color('blue'),
         fill: false,
         data: this.plotData.datasets[1].data,
         yAxisID: "y-axis-2"
-      },
+        },
         {
-          label: this.plotData.datasets[2].label,
-          borderColor: color('blue').alpha(0.5).rgbString(),
-          backgroundColor: color('blue'),
-          fill: false,
-          data: this.plotData.datasets[2].data,
-          yAxisID: "y-axis-3"
+        label: this.plotData.datasets[2].label,
+        borderColor: color('green').alpha(0.5).rgbString(),
+        backgroundColor: color('green'),
+        fill: false,
+        data: this.plotData.datasets[2].data,
+        yAxisID: "y-axis-3"
         }]
     };
 

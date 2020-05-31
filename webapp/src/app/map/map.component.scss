@@ -24,12 +24,14 @@ header {
   margin: auto;
   width: 80%;
   height: 500px;
+  z-index: 1;
 }
 
 #chart {
   margin: auto;
   width: 80%;
   margin-bottom: 100px;
+  z-index: 1;
 }
 
 footer {

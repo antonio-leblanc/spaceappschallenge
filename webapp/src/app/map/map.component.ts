@@ -141,61 +141,37 @@ export class MapComponent implements OnInit {
     var covid_colors = ['#de2d26','#fc9272','#fee0d2'];
     var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
 
+    let datasets = []
+
+    for (let i = 0; i < 3; i++) {
+      datasets.push(
+        {
+        label: this.covidData.datasets[i].label,
+        borderColor: color(covid_colors[i]).rgbString(),
+        backgroundColor: color(covid_colors[i]).rgbString(),
+        fill: false,
+        data: this.covidData.datasets[i].data,
+        yAxisID: "y-axis-1",
+        }
+      )
+    }
+
+    for (let i = 0; i < 3; i++) {
+      datasets.push(
+        {
+        label: this.mobData.datasets[i].label,
+        borderColor: color(mob_colors[i]).rgbString(),
+        backgroundColor: color(mob_colors[i]).rgbString(),
+        fill: false,
+        data: this.mobData.datasets[i].data,
+        yAxisID: "y-axis-2",
+        }
+      )
+    }
+
     let lineChartData = {
       labels: this.covidData.labels,
-      datasets: [
-        {
-        label: this.covidData.datasets[0].label,
-        borderColor: color(covid_colors[0]).rgbString(),
-        backgroundColor: color(covid_colors[0]).rgbString(),
-        fill: false,
-        data: this.covidData.datasets[0].data,
-        yAxisID: "y-axis-1",
-        },
-        {
-        label: this.covidData.datasets[1].label,
-        borderColor: color(covid_colors[1]).rgbString(),
-        backgroundColor: color(covid_colors[1]).rgbString(),
-        fill: false,
-        data: this.covidData.datasets[1].data,
-        yAxisID: "y-axis-1"
-        },
-        {
-        label: this.covidData.datasets[2].label,
-        borderColor: color(covid_colors[2]).rgbString(),
-        backgroundColor: color(covid_colors[2]).rgbString(),
-        fillColor: color(covid_colors[2]).rgbString(),
-        fill: false,
-        data: this.covidData.datasets[2].data,
-        yAxisID: "y-axis-1"
-        },
-
-        {
-        label: this.mobData.datasets[0].label,
-        borderColor: color(mob_colors[0]).rgbString(),
-        backgroundColor: color(mob_colors[0]).rgbString(),
-        fill: false,
-        data: this.mobData.datasets[0].data,
-        yAxisID: "y-axis-2"
-        },
-        {
-        label: this.mobData.datasets[1].label,
-        borderColor: color(mob_colors[1]).rgbString(),
-        backgroundColor: color(mob_colors[1]).rgbString(),
-        fill: false,
-        data: this.mobData.datasets[1].data,
-        yAxisID: "y-axis-2"
-        },
-        {
-        label: this.mobData.datasets[2].label,
-        borderColor: color(mob_colors[2]).rgbString(),
-        backgroundColor: color(mob_colors[2]).rgbString(),
-        fill: false,
-        data: this.mobData.datasets[2].data,
-        yAxisID: "y-axis-2"
-        },
-      ]
-    };
+      datasets: datasets};
 
     this.chart = new Chart('canvas', {
       type: "line",
@@ -213,48 +189,46 @@ export class MapComponent implements OnInit {
             {
             type: "linear",
             display: true,
-            position: "left",
+            position: "right",
             id: "y-axis-1",
             ticks: {fontColor: color('red').rgbString()}
             }, {
             type: "linear",
             display: true,
-            position: "right",
+            position: "left",
             id: "y-axis-2",
             gridLines: {drawOnChartArea: false},
             ticks: {
               beginAtZero: false,
               min: -100, // minimum value
-              max: 100, // maximum value,
+              max: 50, // maximum value,
               fontColor: color('green').rgbString()
-            }
-          },
-            {
-            type: "linear",
-            display: true,
-            position: "right",
-            id: "y-axis-3",
-            gridLines: {
-              drawOnChartArea: false, // only want the grid lines for one axis to show up
-            },
-            ticks: {
-              fontColor: color('blue').rgbString()
               }
-            }],
+            }
+          ],
         }
       }
-    })
+    });
+
+    let datasets2 = []
+
+    for (let i = 0; i < 3; i++) {
+      datasets2.push(
+        {
+        label: this.covidData.datasets[i].label,
+        borderColor: color(covid_colors[i]).rgbString(),
+        backgroundColor: color(covid_colors[i]).rgbString(),
+        fill: false,
+        data: this.covidData.datasets[i].data,
+        yAxisID: "y-axis-1",
+        }
+      )
+    }
+
+
     let lineChartData2 = {
       labels: this.ecoData.labels,
-      datasets: [
-        {
-        label: this.ecoData.datasets[0].label,
-        borderColor: color(covid_colors[0]).rgbString(),
-        backgroundColor: color(covid_colors[0]).rgbString(),
-        fill: false,
-        data: this.ecoData.datasets[0].data,
-        yAxisID: "y-axis-1",
-        }]
+      datasets: datasets2
       };
 
     this.chart2 = new Chart('canvas2', {

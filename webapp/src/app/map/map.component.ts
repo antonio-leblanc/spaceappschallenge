@@ -105,7 +105,7 @@ export class MapComponent implements OnInit {
       data:{
         labels:this.spData.labels,
         datasets:[
-          {label:'Total Number of Cases',
+          {label:this.spData.datasets[0].label,
           data:this.spData.datasets[0].data,
           backgroundColor: color('red').alpha(0.5).rgbString(),
 					borderColor: color('red'),

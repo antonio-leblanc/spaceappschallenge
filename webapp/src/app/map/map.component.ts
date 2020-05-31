@@ -22,7 +22,8 @@ export class MapComponent implements OnInit {
   public chart: any;
   public plotData: any;
   public covidData: any;
-
+  public mobData: any;
+  
 //
   async ngOnInit() {
     this.map = L.map('map', {
@@ -101,6 +102,7 @@ export class MapComponent implements OnInit {
 
     this.plotData =  await this.http.get(this._jsonURL);
     this.covidData =  await this.http.get('assets/data/covidData.json');
+    this.mobData =  await this.http.get('assets/data/mobilityData.json');
 
     this.chartit();
     
@@ -109,34 +111,66 @@ export class MapComponent implements OnInit {
   chartit() {
     var color = Chart.helpers.color;
     var timeFormat = 'MM/DD/YYYY HH:mm';
+    var covid_colors = ['#de2d26','#fc9272','#fee0d2'];
+    var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
 
     let lineChartData = {
       labels: this.covidData.labels,
       datasets: [
         {
         label: this.covidData.datasets[0].label,
-        borderColor: color('red').alpha(0.5).rgbString(),
-        backgroundColor: color('red').alpha(0.5).rgbString(),
+        borderColor: color(covid_colors[0]).rgbString(),
+        backgroundColor: color(covid_colors[0]).rgbString(),
         fill: false,
         data: this.covidData.datasets[0].data,
         yAxisID: "y-axis-1",
         }, 
         {
         label: this.covidData.datasets[1].label,
-        borderColor: color('blue').alpha(0.5).rgbString(),
-        backgroundColor: color('blue').alpha(0.5).rgbString(),
+        borderColor: color(covid_colors[1]).rgbString(),
+        backgroundColor: color(covid_colors[1]).rgbString(),
         fill: false,
         data: this.covidData.datasets[1].data,
         yAxisID: "y-axis-1"
         },
         {
         label: this.covidData.datasets[2].label,
-        borderColor: color('green').alpha(0.5).rgbString(),
-        backgroundColor: color('green'),
+        borderColor: color(covid_colors[2]).rgbString(),
+        backgroundColor: color(covid_colors[2]),
+        fillColor: color(covid_colors[2]),
         fill: false,
         data: this.covidData.datasets[2].data,
         yAxisID: "y-axis-1"
-        }]
+        },
+
+        {
+        label: this.mobData.datasets[0].label,
+        borderColor: color(mob_colors[0]).rgbString(),
+        backgroundColor: color(mob_colors[0]),
+        fill: false,
+        data: this.mobData.datasets[0].data,
+        yAxisID: "y-axis-2"
+        },
+        {
+        label: this.mobData.datasets[1].label,
+        borderColor: color(mob_colors[1]).rgbString(),
+        backgroundColor: color(mob_colors[1]),
+        fill: false,
+        data: this.mobData.datasets[1].data,
+        yAxisID: "y-axis-2"
+        },
+        {
+        label: this.mobData.datasets[2].label,
+        borderColor: color(mob_colors[2]).rgbString(),
+        backgroundColor: color(mob_colors[2]),
+        fill: false,
+        data: this.mobData.datasets[2].data,
+        yAxisID: "y-axis-2"
+        },
+      
+      
+      
+      ]
     };
 
     this.chart = new Chart('canvas', {
@@ -148,42 +182,39 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Indicators Evolution Over Time'
+          text: 'Disease Spread and Mobility changes Over Time'
         },
         scales: {
-          yAxes: [{
+          yAxes: [
+            {
             type: "linear",
             display: true,
             position: "left",
             id: "y-axis-1",
-            ticks: {
-              fontColor: color('red').alpha(0.5).rgbString()
-            }
-          }, {
+            ticks: {fontColor: color('red').rgbString()}
+            }, {
             type: "linear",
             display: true,
             position: "right",
             id: "y-axis-2",
-            gridLines: {
-              drawOnChartArea: false,
-            },
+            gridLines: {drawOnChartArea: false},
             ticks: {
               beginAtZero: false,
               min: -100, // minimum value
               max: 100, // maximum value,
-              fontColor: color('blue').alpha(0.5).rgbString()
+              fontColor: color('green').rgbString()
             }
           },
             {
-              type: "linear",
-              display: true,
-              position: "right",
-              id: "y-axis-3",
-              gridLines: {
-                drawOnChartArea: false, // only want the grid lines for one axis to show up
-              },
-              ticks: {
-                fontColor: color('green').alpha(0.5).rgbString()
+            type: "linear",
+            display: true,
+            position: "right",
+            id: "y-axis-3",
+            gridLines: {
+              drawOnChartArea: false, // only want the grid lines for one axis to show up
+            },
+            ticks: {
+              fontColor: color('blue').rgbString()
               }
             }],
         }

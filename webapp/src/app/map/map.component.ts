@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import * as L from 'leaflet';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import Chart from 'chart.js';
 
 @Component({
   selector: 'app-map',
@@ -15,6 +15,7 @@ export class MapComponent implements OnInit {
   public usStates:any;
   public brStates:any;
   public info:any;
+  public chart:any;
 // 
   async ngOnInit() {
     this.map = L.map('map', {
@@ -88,50 +89,29 @@ export class MapComponent implements OnInit {
     };
 
     this.info.addTo(this.map);
+
+    this.chartit()
   }
+
+  chartit(){
+    this.chart = new Chart('canvas', {
+      type:"bar",
+      data:{
+        labels:["January","February","March","April","May","June","July"],
+        datasets:[
+          {label:"My First Dataset",
+          data:[65,59,80,81,56,55,40],
+          fill:false,
+          borderColor:"#fff",
+          lineTension:0.1}]},
+          options:{}}
+      )
+        }
+
+
   
- 
-  async getSpots(){
-    let points = await this.http.get('detalhes_locais');
-    if(points === null) return;
 
-    return L.geoJSON(points, {
-      pointToLayer: (feature, latlng) => {
-
-        let icon_path = './assets/';
-
-        switch(feature.id_tipo_local){
-          case 1:
-            icon_path += 'icon-tower-green.png';
-            break;
-          case 2:
-          case 3:
-            icon_path += 'icon-tower-green.png';
-            break;
-          case 4:
-            icon_path += 'icon-tower-green.png';
-            break;
-          // case 1:
-          case 5:
-            return;
-        };
-
-        let icon = L.icon({
-          iconSize: [32,32],
-          iconUrl: icon_path
-        });
-
-        return L.marker(latlng, {icon: icon});
-      }
-      // ,
-      // onEachFeature: (feature, layer) => {
-      //   layer.bindPopup(feature);
-      //   layer.on('click', e => {
-      //     console.log('...towers', this.infra_structure, feature, layer);
-      //   });
-      // }
-    });
-  }
+  
   getColor(d){
     return d > 1000 ? '#800026' :
            d > 500  ? '#BD0026' :

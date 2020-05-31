@@ -20,7 +20,7 @@ export class MapComponent implements OnInit {
   public brStates: any;
   public info: any;
   public chart: any;
-  public spData: any;
+  public plotData: any;
 
 //
   async ngOnInit() {
@@ -97,10 +97,9 @@ export class MapComponent implements OnInit {
 
     this.info.addTo(this.map);
 
-    // this.spData = this.http.getSpData()
 
     this.http.getJSON(this._jsonURL).subscribe(data => {
-      this.spData = data;
+      this.plotData = data;
 
       this.chartit();
     });
@@ -112,28 +111,28 @@ export class MapComponent implements OnInit {
     var timeFormat = 'MM/DD/YYYY HH:mm';
 
     let lineChartData = {
-      labels: this.spData.labels,
+      labels: this.plotData.labels,
       datasets: [{
-        label: "My First dataset",
+        label: this.plotData.datasets[0].label,
         borderColor: color('red').alpha(0.5).rgbString(),
         backgroundColor: color('red'),
         fill: false,
-        data: this.spData.datasets[0].data,
+        data: this.plotData.datasets[0].data,
         yAxisID: "y-axis-1",
       }, {
-        label: "My Second dataset",
+        label: this.plotData.datasets[1].label,
         borderColor: color('blue').alpha(0.5).rgbString(),
         backgroundColor: color('blue'),
         fill: false,
-        data: this.spData.datasets[1].data,
+        data: this.plotData.datasets[1].data,
         yAxisID: "y-axis-2"
       },
         {
-          label: "My Second dataset",
+          label: this.plotData.datasets[2].label,
           borderColor: color('blue').alpha(0.5).rgbString(),
           backgroundColor: color('blue'),
           fill: false,
-          data: this.spData.datasets[1].data,
+          data: this.plotData.datasets[2].data,
           yAxisID: "y-axis-3"
         }]
     };

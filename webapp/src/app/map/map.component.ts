@@ -212,14 +212,14 @@ export class MapComponent implements OnInit {
 
     let datasets2 = []
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       datasets2.push(
         {
-        label: this.covidData.datasets[i].label,
+        label: this.ecoData.datasets[i].label,
         borderColor: color(covid_colors[i]).rgbString(),
         backgroundColor: color(covid_colors[i]).rgbString(),
         fill: false,
-        data: this.covidData.datasets[i].data,
+        data: this.ecoData.datasets[i].data,
         yAxisID: "y-axis-1",
         }
       )
@@ -240,7 +240,7 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Disease Spread and Mobility changes Over Time'
+          text: 'Historical Socio Economic Data'
         },
         scales: {
           yAxes: [

@@ -155,6 +155,9 @@ export class MapComponent implements OnInit {
             display: true,
             position: "left",
             id: "y-axis-1",
+            ticks: {
+              fontColor: color('red').alpha(0.5).rgbString()
+            }
           }, {
             type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
             display: true,
@@ -166,7 +169,8 @@ export class MapComponent implements OnInit {
             ticks: {
               beginAtZero: false,
               min: -100, // minimum value
-              max: 100 // maximum value
+              max: 100, // maximum value,
+              fontColor: color('blue').alpha(0.5).rgbString()
             }
           },
             {
@@ -177,6 +181,9 @@ export class MapComponent implements OnInit {
               gridLines: {
                 drawOnChartArea: false, // only want the grid lines for one axis to show up
               },
+              ticks: {
+                fontColor: color('blue').alpha(0.5).rgbString()
+              }
             }],
         }
       }

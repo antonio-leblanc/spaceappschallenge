@@ -2,15 +2,11 @@
 
 *{
   box-sizing: border-box;
+  margin : 0
 }
 
 .map-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 30px;
+    margin :10px;
     z-index: 1;
   }
 

@@ -16,6 +16,7 @@ export class MapComponent implements OnInit {
   public brStates:any;
   public info:any;
   public chart:any;
+  public spData:any;
 // 
   async ngOnInit() {
     this.map = L.map('map', {
@@ -90,22 +91,51 @@ export class MapComponent implements OnInit {
 
     this.info.addTo(this.map);
 
+    this.spData = this.http.getSpData()
+
     this.chartit()
   }
 
+
   chartit(){
+    var color = Chart.helpers.color;
+    var timeFormat = 'MM/DD/YYYY HH:mm';
     this.chart = new Chart('canvas', {
-      type:"bar",
+      type:"line",
       data:{
-        labels:["January","February","March","April","May","June","July"],
+        labels:this.spData.labels,
         datasets:[
-          {label:"My First Dataset",
-          data:[65,59,80,81,56,55,40],
+          {label:'Total Number of Cases',
+          data:this.spData.datasets[0].data,
+          backgroundColor: color('red').alpha(0.5).rgbString(),
+					borderColor: color('red'),
           fill:false,
-          borderColor:"#fff",
           lineTension:0.1}]},
-          options:{}}
-      )
+          options: {}}
+            // title: {
+            //   text: 'Chart.js Time Scale'
+            //   },
+            //   scales: {
+            //     xAxes: [{
+            //       type: 'time',
+            //       time: {
+            //         parser: timeFormat,
+            //         round: 'day',
+            //         tooltipFormat: 'll HH:mm'
+            //         },
+            //       scaleLabel: {
+            //         display: true,
+            //         labelString: 'Date'
+            //       }
+            //     }],
+            //     yAxes: [{
+            //       scaleLabel: {
+            //         display: true,
+            //         labelString: 'value'
+            //       }}]
+            //     }}
+            //   }
+        )
         }
 
 

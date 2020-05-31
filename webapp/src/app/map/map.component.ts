@@ -38,7 +38,30 @@ export class MapComponent implements OnInit {
     }).addTo(this.map);
 
     this.brStates = await this.http.get('assets/data/states_brazil.json')
-    this.brStates = L.geoJSON(this.brStates).addTo(this.map)
+    this.brStates = L.geoJSON(this.brStates,
+      {        
+        style: (feature) => {
+        return {
+          // weight: 2,
+          // opacity: 1,
+          // color: 'white',
+          // dashArray: '3',
+          // fillOpacity: 0.7,
+          // fillColor: 'blue'
+        }},
+        onEachFeature: (feature, layer) => {
+          layer.on({
+            mouseover: this.highlightFeature,
+            mouseout: (e) => {
+              this.brStates.resetStyle(e.target)
+              this.info.update();
+            }
+          })
+        }  
+      }
+      
+      
+      ).addTo(this.map)
 
     this.usStates = L.geoJson(this.http.getUSstates(),
       {
@@ -88,15 +111,14 @@ export class MapComponent implements OnInit {
     this.info = L.control();
 
     this.info.onAdd = function (map) {
-      this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+      this._div = L.DomUtil.create('div', 'info');
       this.update();
       return this._div;
     };
 
-    // method that we will use to update the control based on feature properties passed
     this.info.update = function (props) {
       this._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
-        '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+        '<b>' + props.nome_uf + '</b><br />' + props.regiao 
         : 'Hover over a state');
     };
 
@@ -107,7 +129,6 @@ export class MapComponent implements OnInit {
     this.covidData =  await this.http.get('assets/data/covidData.json');
     this.mobData =  await this.http.get('assets/data/mobilityData.json');
     this.ecoData =  await this.http.get('assets/data/ecoData.json');
-    console.log(this.ecoData)
 
     this.chartit();
 
@@ -288,7 +309,7 @@ export class MapComponent implements OnInit {
 
     layer.setStyle({
       weight: 5,
-      color: '#666',
+      // color: '#666',
       dashArray: '',
       fillOpacity: 0.7
     });
@@ -297,7 +318,7 @@ export class MapComponent implements OnInit {
       layer.bringToFront();
     }
 
-    console.log(this)
+    console.log(layer.feature.properties)
     this.info.update(layer.feature.properties)
   }
 

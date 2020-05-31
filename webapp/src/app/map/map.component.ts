@@ -121,7 +121,15 @@ export class MapComponent implements OnInit {
         fill: false,
         data: this.spData.datasets[1].data,
         yAxisID: "y-axis-2"
-      }]
+      },
+        {
+          label: "My Second dataset",
+          borderColor: color('blue').alpha(0.5).rgbString(),
+          backgroundColor: color('blue'),
+          fill: false,
+          data: this.spData.datasets[1].data,
+          yAxisID: "y-axis-3"
+        }]
     };
 
     this.chart = new Chart('canvas', {
@@ -146,11 +154,24 @@ export class MapComponent implements OnInit {
             display: true,
             position: "right",
             id: "y-axis-2",
-
             gridLines: {
               drawOnChartArea: false, // only want the grid lines for one axis to show up
             },
-          }],
+            ticks: {
+              beginAtZero: false,
+              min: -100, // minimum value
+              max: 100 // maximum value
+            }
+          },
+            {
+              type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+              display: true,
+              position: "right",
+              id: "y-axis-3",
+              gridLines: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+              },
+            }],
         }
       }
     })

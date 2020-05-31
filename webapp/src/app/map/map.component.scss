@@ -1,36 +1,48 @@
 @import "../../styles.scss";
 
-*{
+* {
   box-sizing: border-box;
-  margin : 0;
+  margin: 0;
   font-family: Helvetica, sans-serif;
 }
 
-header{
+header {
   text-align: center;
-  font-size: large; 
+  font-size: large;
 }
 
 .map-container {
-    margin :10px;
-    z-index: 1;
-  }
+  margin: 10px;
+}
 
-  .map-frame {
-    border: 2px solid black;
-    height: 100%;
-  }
+.map-frame {
+  border: 2px solid black;
+  height: 100%;
+}
 
-  #map {
-    position: absolute;
-    top: 20px;
-    width: 50%;
-    height: 100%;
-  }
+#map {
+  margin: auto;
+  width: 80%;
+  height: 500px;
+  z-index: 1;
+}
 
-  #chart {
-    position: relative;
-    left: 50%;
-    width: 50%;
-    height: 100%;
-  }
+#chart {
+  margin: auto;
+  width: 80%;
+  margin-bottom: 100px;
+  z-index: 1;
+}
+
+footer {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  border-top: #c6e09b 5px solid;
+  color: #fff;
+  font-size: 18px;
+  background-color: #0079a5;
+  padding: 25px;
+  text-align: right;
+  z-index: 999;
+}

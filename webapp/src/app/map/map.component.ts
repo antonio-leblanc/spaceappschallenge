@@ -24,8 +24,12 @@ export class MapComponent implements OnInit {
   public plotData: any;
   public covidData: any;
   public mobData: any;
+<<<<<<< HEAD
   public ecoData: any;
   
+=======
+
+>>>>>>> master
 //
   async ngOnInit() {
     this.map = L.map('map', {
@@ -109,7 +113,7 @@ export class MapComponent implements OnInit {
     console.log(this.ecoData)
 
     this.chartit();
-    
+
   }
 
   chartit() {
@@ -128,7 +132,7 @@ export class MapComponent implements OnInit {
         fill: false,
         data: this.covidData.datasets[0].data,
         yAxisID: "y-axis-1",
-        }, 
+        },
         {
         label: this.covidData.datasets[1].label,
         borderColor: color(covid_colors[1]).rgbString(),
@@ -140,8 +144,8 @@ export class MapComponent implements OnInit {
         {
         label: this.covidData.datasets[2].label,
         borderColor: color(covid_colors[2]).rgbString(),
-        backgroundColor: color(covid_colors[2]),
-        fillColor: color(covid_colors[2]),
+        backgroundColor: color(covid_colors[2]).rgbString(),
+        fillColor: color(covid_colors[2]).rgbString(),
         fill: false,
         data: this.covidData.datasets[2].data,
         yAxisID: "y-axis-1"
@@ -150,7 +154,7 @@ export class MapComponent implements OnInit {
         {
         label: this.mobData.datasets[0].label,
         borderColor: color(mob_colors[0]).rgbString(),
-        backgroundColor: color(mob_colors[0]),
+        backgroundColor: color(mob_colors[0]).rgbString(),
         fill: false,
         data: this.mobData.datasets[0].data,
         yAxisID: "y-axis-2"
@@ -158,7 +162,7 @@ export class MapComponent implements OnInit {
         {
         label: this.mobData.datasets[1].label,
         borderColor: color(mob_colors[1]).rgbString(),
-        backgroundColor: color(mob_colors[1]),
+        backgroundColor: color(mob_colors[1]).rgbString(),
         fill: false,
         data: this.mobData.datasets[1].data,
         yAxisID: "y-axis-2"
@@ -166,11 +170,17 @@ export class MapComponent implements OnInit {
         {
         label: this.mobData.datasets[2].label,
         borderColor: color(mob_colors[2]).rgbString(),
-        backgroundColor: color(mob_colors[2]),
+        backgroundColor: color(mob_colors[2]).rgbString(),
         fill: false,
         data: this.mobData.datasets[2].data,
         yAxisID: "y-axis-2"
         },
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> master
       ]
     };
 

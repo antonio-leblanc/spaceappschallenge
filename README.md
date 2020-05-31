@@ -62,7 +62,7 @@ Atmospheric data were used to infer human movement
 
 ![sentinel 2](./docs/images/sentinel_2.png)
 
-[Sentinel 5P](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_AER_AI)
+[Sentinel 5P](https://developers.google.com/earth-engine/datasets/catalog/sentinel-5p)
 
 ![sentinel %P](./docs/images/sentinel_5P.png)
 

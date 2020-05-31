@@ -46,3 +46,20 @@ footer {
   text-align: right;
   z-index: 999;
 }
+
+#btnToTop {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: #0079a5;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 100%;
+  width: 60px;
+  height: 60px;
+}

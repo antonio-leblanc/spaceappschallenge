@@ -323,6 +323,9 @@ export class MapComponent implements OnInit {
     this.info.update(layer.feature.properties)
   }
 
+  toTop() {
+    window.scroll(0,0);
+  }
 }
 
 

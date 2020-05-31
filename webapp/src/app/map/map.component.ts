@@ -20,9 +20,11 @@ export class MapComponent implements OnInit {
   public brStates: any;
   public info: any;
   public chart: any;
+  public chart2: any;
   public plotData: any;
   public covidData: any;
   public mobData: any;
+  public ecoData: any;
   
 //
   async ngOnInit() {
@@ -103,6 +105,8 @@ export class MapComponent implements OnInit {
     this.plotData =  await this.http.get(this._jsonURL);
     this.covidData =  await this.http.get('assets/data/covidData.json');
     this.mobData =  await this.http.get('assets/data/mobilityData.json');
+    this.ecoData =  await this.http.get('assets/data/ecoData.json');
+    console.log(this.ecoData)
 
     this.chartit();
     
@@ -167,9 +171,6 @@ export class MapComponent implements OnInit {
         data: this.mobData.datasets[2].data,
         yAxisID: "y-axis-2"
         },
-      
-      
-      
       ]
     };
 
@@ -217,6 +218,54 @@ export class MapComponent implements OnInit {
               fontColor: color('blue').rgbString()
               }
             }],
+        }
+      }
+    })
+    let lineChartData2 = {
+      labels: this.ecoData.labels,
+      datasets: [
+        {
+        label: this.ecoData.datasets[0].label,
+        borderColor: color(covid_colors[0]).rgbString(),
+        backgroundColor: color(covid_colors[0]).rgbString(),
+        fill: false,
+        data: this.ecoData.datasets[0].data,
+        yAxisID: "y-axis-1",
+        }]
+      };
+
+    this.chart2 = new Chart('canvas2', {
+      type: "line",
+      data: lineChartData2,
+      options: {
+        responsive: true,
+        hoverMode: 'index',
+        stacked: false,
+        title: {
+          display: true,
+          text: 'Disease Spread and Mobility changes Over Time'
+        },
+        scales: {
+          yAxes: [
+            {
+            type: "linear",
+            display: true,
+            position: "left",
+            id: "y-axis-1",
+            ticks: {fontColor: color('red').rgbString()}
+            }, {
+            type: "linear",
+            display: true,
+            position: "right",
+            id: "y-axis-2",
+            gridLines: {drawOnChartArea: false},
+            ticks: {
+              beginAtZero: false,
+              min: -100,
+              max: 100, 
+              fontColor: color('green').rgbString()
+            }
+          }],
         }
       }
     })

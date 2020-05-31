@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "si-deploy"
+  "defaultProject": "si-deploy",
+  "cli": {
+    "analytics": "d7e9140d-de58-4d6c-b9c2-468f42e4c7df"
+  }
 }

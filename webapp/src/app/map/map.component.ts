@@ -72,7 +72,7 @@ export class MapComponent implements OnInit {
             opacity: 1,
             color: 'white',
             dashArray: '3',
-            fillOpacity: 0.7,
+            fillOpacity: 0.1,
             fillColor: this.getColor(feature.properties.density)
           };
         },
@@ -133,6 +133,15 @@ export class MapComponent implements OnInit {
     this.imgData =  await this.http.get('assets/data/imageData.json');
     this.chartit();
 
+    let imageBounds = [ [-25.74572, -53.19823],[-19.08022, -43.70304] ];
+    let imageUrl = 'assets/imgs/test.png';
+    this.img = L.imageOverlay(imageUrl, imageBounds).addTo(this.map);
+    L.control.layers({'CO': this.img}).addTo(this.map);
+  }
+
+  img;
+  changeImg(){
+    this.img.remove();
   }
 
   chartit() {
@@ -286,7 +295,7 @@ export class MapComponent implements OnInit {
       weight: 5,
       // color: '#666',
       dashArray: '',
-      fillOpacity: 0.7
+      fillOpacity: 0.1
     });
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {

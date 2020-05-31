@@ -317,8 +317,7 @@ export class MapComponent implements OnInit {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       layer.bringToFront();
     }
-
-    console.log(layer.feature.properties)
+    // console.log(layer.feature.properties)
     this.info.update(layer.feature.properties)
   }
 

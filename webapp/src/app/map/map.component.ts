@@ -24,12 +24,8 @@ export class MapComponent implements OnInit {
   public plotData: any;
   public covidData: any;
   public mobData: any;
-<<<<<<< HEAD
   public ecoData: any;
   
-=======
-
->>>>>>> master
 //
   async ngOnInit() {
     this.map = L.map('map', {
@@ -41,7 +37,8 @@ export class MapComponent implements OnInit {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
 
-    this.brStates = L.geoJSON(this.http.getBRstates()).addTo(this.map)
+    this.brStates = await this.http.get('assets/data/states_brazil.json')
+    this.brStates = L.geoJSON(this.brStates).addTo(this.map)
 
     this.usStates = L.geoJson(this.http.getUSstates(),
       {
@@ -175,12 +172,6 @@ export class MapComponent implements OnInit {
         data: this.mobData.datasets[2].data,
         yAxisID: "y-axis-2"
         },
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> master
       ]
     };
 

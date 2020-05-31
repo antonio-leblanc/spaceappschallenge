@@ -10,6 +10,8 @@ import Chart from 'chart.js';
 })
 export class MapComponent implements OnInit {
 
+  private _jsonURL = 'assets/data/teste.json';
+
   constructor(private http: HttpService) {
   }
 
@@ -95,9 +97,13 @@ export class MapComponent implements OnInit {
 
     this.info.addTo(this.map);
 
-    this.spData = this.http.getSpData()
+    // this.spData = this.http.getSpData()
 
-    this.chartit()
+    this.http.getJSON(this._jsonURL).subscribe(data => {
+      this.spData = data;
+
+      this.chartit();
+    });
   }
 
 

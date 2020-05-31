@@ -13,7 +13,6 @@ header {
 
 .map-container {
   margin: 10px;
-  z-index: 1;
 }
 
 .map-frame {
@@ -22,12 +21,14 @@ header {
 }
 
 #map {
-  width: 100%;
+  margin: auto;
+  width: 80%;
   height: 500px;
 }
 
 #chart {
-  width: 100%;
+  margin: auto;
+  width: 80%;
   margin-bottom: 100px;
 }
 
@@ -41,4 +42,5 @@ footer {
   background-color: #0079a5;
   padding: 25px;
   text-align: right;
+  z-index: 999;
 }

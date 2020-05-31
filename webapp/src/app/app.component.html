@@ -1,5 +1,24 @@
+<mat-toolbar>
+  <span>BC | AC</span>
+</mat-toolbar>
+
+<mat-grid-list cols="2" class="gridList" rowHeight="fit">
+  <mat-grid-tile class="mat-grid-tile">
+    <img src="assets/logo.jpeg" alt="logo BC | AC" width="400px">
+  </mat-grid-tile>
+  <mat-grid-tile class="mat-grid-tile">
+    Coronavirus: We have a hole different world now <br/>
+    • How different is the world now? <br/>
+    • Our economy is different, how this affect people’s life?<br/>
+    • How can we use available data to understand the corona’s <br/>
+    impact in the world? <br/>
+    • On-line confused data <br/>
+    • Gaps in a lot of data <br/>
+  </mat-grid-tile>
+</mat-grid-list>
 
 <router-outlet>
-<app-map></app-map>
-
+  <div fxFlex>
+    <app-map></app-map>
+  </div>
 </router-outlet>

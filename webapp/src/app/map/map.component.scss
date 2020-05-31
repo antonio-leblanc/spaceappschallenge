@@ -33,7 +33,12 @@ header {
 
 footer {
   bottom: 0;
-  color: #fff;
   position: fixed;
   width: 100%;
+  border-top: #c6e09b 5px solid;
+  color: #fff;
+  font-size: 18px;
+  background-color: #0079a5;
+  padding: 25px;
+  text-align: right;
 }

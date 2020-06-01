@@ -3,6 +3,37 @@ import {HttpService} from '../http.service';
 import * as L from 'leaflet';
 import Chart from 'chart.js';
 
+export class ImgPaths {
+  CH4 = {
+    NY: ['ny_CH4_2020-01-20.png', 'ny_CH4_2020-02-19.png', 'ny_CH4_2020-03-20.png', 'ny_CH4_2020-04-20.png'],
+    SP: ['sp_CH4_2020-01-20.png', 'sp_CH4_2020-02-19.png', 'sp_CH4_2020-03-20.png', 'sp_CH4_2020-04-20.png']
+  };
+  CO = {
+    NY: ['ny_CO_2020-01-20.png', 'ny_CO_2020-02-19.png', 'ny_CO_2020-03-20.png', 'ny_CO_2020-04-20.png'],
+    SP: ['sp_CO_2020-01-20.png', 'sp_CO_2020-02-19.png', 'sp_CO_2020-03-20.png', 'sp_CO_2020-04-20.png']
+  };
+  HCHO = {
+    NY: ['ny_HCHO_2020-01-20.png', 'ny_HCHO_2020-02-19.png', 'ny_HCHO_2020-03-20.png', 'ny_HCHO_2020-04-20.png'],
+    SP: ['sp_HCHO_2020-01-20.png', 'sp_HCHO_2020-02-19.png', 'sp_HCHO_2020-03-20.png', 'sp_HCHO_2020-04-20.png']
+  };
+  NIR = {
+    NY: ['ny_nir_2020-01-20.png', 'ny_nir_2020-02-19.png', 'ny_nir_2020-03-20.png', 'ny_nir_2020-04-20.png'],
+    SP: ['sp_nir_2020-01-20.png', 'sp_nir_2020-02-19.png', 'sp_nir_2020-03-20.png', 'sp_nir_2020-04-20.png']
+  };
+  NO2 = {
+    NY: ['ny_NO2_2020-01-20.png', 'ny_NO2_2020-02-19.png', 'ny_NO2_2020-03-20.png', 'ny_NO2_2020-04-20.png'],
+    SP: ['sp_NO2_2020-01-20.png', 'sp_NO2_2020-02-19.png', 'sp_NO2_2020-03-20.png', 'sp_NO2_2020-04-20.png']
+  };
+  SO2 = {
+    NY: ['ny_SO2_2020-01-20.png', 'ny_SO2_2020-02-19.png', 'ny_SO2_2020-03-20.png', 'ny_SO2_2020-04-20.png'],
+    SP: ['sp_SO2_2020-01-20.png', 'sp_SO2_2020-02-19.png', 'sp_SO2_2020-03-20.png', 'sp_SO2_2020-04-20.png']
+  };
+  TEMP = {
+    NY: ['ny_temp_2020-01-20.png', 'ny_temp_2020-02-19.png', 'ny_temp_2020-03-20.png', 'ny_temp_2020-04-20.png'],
+    SP: ['sp_temp_2020-01-20.png', 'sp_temp_2020-02-19.png', 'sp_temp_2020-03-20.png', 'sp_temp_2020-04-20.png']
+  }
+};
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -26,6 +57,11 @@ export class MapComponent implements OnInit {
   public mobData: any;
   public ecoData: any;
   public imgData: any;
+  imageBoundsSP = [ [-25.74572, -53.19823],[-19.08022, -43.70304] ];
+  imageBoundsNY = [ [40.49617, -79.76333],[45.01583, -71.85635] ];
+  imageOverlays: any = {};
+  imagePaths: ImgPaths = new ImgPaths();
+
 
 //
   async ngOnInit() {
@@ -60,7 +96,6 @@ export class MapComponent implements OnInit {
           })
         }
       }
-
 
       ).addTo(this.map)
 
@@ -125,22 +160,55 @@ export class MapComponent implements OnInit {
 
     this.info.addTo(this.map);
 
-
     this.covidData =  await this.http.get('assets/data/covidData.json');
     this.mobData =  await this.http.get('assets/data/mobilityData.json');
     this.ecoData =  await this.http.get('assets/data/ecoData.json');
     this.imgData =  await this.http.get('assets/data/imageData.json');
     this.chartit();
 
-    let imageBounds = [ [-25.74572, -53.19823],[-19.08022, -43.70304] ];
-    let imageUrl = 'assets/imgs/test.png';
-    this.img = L.imageOverlay(imageUrl, imageBounds).addTo(this.map);
-    L.control.layers({'CO': this.img}).addTo(this.map);
+    this.setImgLayers();
+
   }
 
-  img;
-  changeImg(){
-    this.img.remove();
+  setImgLayers(){
+    let base_path = 'assets/imgs/';
+    this.imageOverlays = {
+      CH4: {
+        NY: L.imageOverlay(base_path+this.imagePaths.CH4.NY[3], this.imageBoundsNY),
+        SP: L.imageOverlay(base_path+this.imagePaths.CH4.SP[3], this.imageBoundsSP)
+      },
+      CO: {
+        NY: L.imageOverlay(base_path+this.imagePaths.CO.NY[3], this.imageBoundsNY),
+        SP: L.imageOverlay(base_path+this.imagePaths.CO.SP[3], this.imageBoundsSP)
+      },
+      HCHO: {
+        NY: L.imageOverlay(base_path+this.imagePaths.HCHO.NY[3], this.imageBoundsNY),
+        SP: L.imageOverlay(base_path+this.imagePaths.HCHO.SP[3], this.imageBoundsSP)
+      },
+      NIR: {
+        NY: L.imageOverlay(base_path+this.imagePaths.NIR.NY[3], this.imageBoundsNY),
+        SP: L.imageOverlay(base_path+this.imagePaths.NIR.SP[3], this.imageBoundsSP)
+      },
+      NO2: {
+        NY: L.imageOverlay(base_path+this.imagePaths.NO2.NY[3], this.imageBoundsNY),
+        SP: L.imageOverlay(base_path+this.imagePaths.NO2.SP[3], this.imageBoundsSP)
+      },
+      SO2: {
+        NY: L.imageOverlay(base_path+this.imagePaths.SO2.NY[3], this.imageBoundsNY),
+        SP: L.imageOverlay(base_path+this.imagePaths.SO2.SP[3], this.imageBoundsSP)
+      },
+      TEMP: {
+        NY: L.imageOverlay(base_path+this.imagePaths.TEMP.NY[3], this.imageBoundsNY),
+        SP: L.imageOverlay(base_path+this.imagePaths.TEMP.SP[3], this.imageBoundsSP)
+      }
+    }
+
+    let temp = {};
+    for(let k in this.imageOverlays){
+      let obj = this.imageOverlays[k];
+      temp[k] = L.layerGroup([obj.NY, obj.SP]);
+    }
+    L.control.layers({}, temp).addTo(this.map);
   }
 
   chartit() {
@@ -180,8 +248,8 @@ export class MapComponent implements OnInit {
     let lineChartData = {
       labels: this.covidData.labels,
       datasets: datasets};
-    
-    
+
+
     this.chart = new Chart('canvas', {
       type: "line",
       data: lineChartData,

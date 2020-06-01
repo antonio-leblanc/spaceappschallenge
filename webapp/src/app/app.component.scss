@@ -1,3 +1,5 @@
+@import '../styles.scss';
+
 .gridList {
   height: 300px;
 }
@@ -5,4 +7,21 @@
 .mat-grid-tile {
   justify-content: flex-start !important;
   align-items: flex-start !important;
+}
+
+.bg-img-intro{
+  background-attachment: fixed;
+  background-size: cover;
+  width: 100%;
+  background-image: url(../assets/logo_long.jpg);
+  height :300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.intro-text{
+  color:white;
+  font-size: 1.5rem;
+  text-align: right;  
 }

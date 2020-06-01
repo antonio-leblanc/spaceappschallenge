@@ -21,7 +21,7 @@ export class MapComponent implements OnInit {
   public info: any;
   public chart: any;
   public chart2: any;
-  public plotData: any;
+  public chart3: any;
   public covidData: any;
   public mobData: any;
   public ecoData: any;
@@ -126,7 +126,6 @@ export class MapComponent implements OnInit {
     this.info.addTo(this.map);
 
 
-    this.plotData =  await this.http.get(this._jsonURL);
     this.covidData =  await this.http.get('assets/data/covidData.json');
     this.mobData =  await this.http.get('assets/data/mobilityData.json');
     this.ecoData =  await this.http.get('assets/data/ecoData.json');
@@ -212,14 +211,15 @@ export class MapComponent implements OnInit {
 
     let datasets2 = []
 
-    for (let i = 0; i < 2; i++) {
+    for (var i of [2,4,5]) {
+      console.log(i)
       datasets2.push(
         {
-        label: this.ecoData.datasets[i].label,
+        label: this.imgData.datasets[i].label,
         borderColor: color(covid_colors[i]).rgbString(),
         backgroundColor: color(covid_colors[i]).rgbString(),
         fill: false,
-        data: this.ecoData.datasets[i].data,
+        data: this.imgData.datasets[i].data,
         yAxisID: "y-axis-1",
         }
       )
@@ -227,7 +227,7 @@ export class MapComponent implements OnInit {
 
 
     let lineChartData2 = {
-      labels: this.ecoData.labels,
+      labels: this.imgData.labels,
       datasets: datasets2
       };
 
@@ -240,7 +240,7 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Historical Socio Economic Data'
+          text: 'Satellite Image Information'
         },
         scales: {
           yAxes: [
@@ -263,6 +263,52 @@ export class MapComponent implements OnInit {
               fontColor: color('green').rgbString()
             }
           }],
+        }
+      }
+    })
+
+    let datasets3 = []
+
+    for (let i = 0; i < 2; i++) {
+      datasets3.push(
+        {
+        label: this.ecoData.datasets[i].label,
+        borderColor: color(covid_colors[i]).rgbString(),
+        backgroundColor: color(covid_colors[i]).rgbString(),
+        fill: false,
+        data: this.ecoData.datasets[i].data,
+        yAxisID: "y-axis-1",
+        }
+      )
+    }
+
+
+    let lineChartData3 = {
+      labels: this.ecoData.labels,
+      datasets: datasets3
+      };
+
+    this.chart3 = new Chart('canvas3', {
+      type: "line",
+      data: lineChartData3,
+      options: {
+        responsive: true,
+        hoverMode: 'index',
+        stacked: false,
+        title: {
+          display: true,
+          text: 'Historical Socio Economic Data'
+        },
+        scales: {
+          yAxes: [
+            {
+            type: "linear",
+            display: true,
+            position: "left",
+            id: "y-axis-1",
+            ticks: {fontColor: color('red').rgbString()}
+            }
+          ],
         }
       }
     })

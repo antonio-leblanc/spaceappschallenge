@@ -87,7 +87,7 @@ export class MapComponent implements OnInit {
           // opacity: 1,
           color: 'white',
           // dashArray: '3',
-          fillOpacity: 0.7,
+          fillOpacity: 0.2,
           fillColor: this.getColor(this.getCases(feature.properties.uf_05))}},
         onEachFeature: (feature, layer) => {
           layer.on({
@@ -153,34 +153,35 @@ export class MapComponent implements OnInit {
 
   setImgLayers(){
     let base_path = 'assets/imgs/';
+    let opts = {zIndex: 10000};
     this.imageOverlays = {
       CH4: {
-        NY: L.imageOverlay(base_path+this.imagePaths.CH4.NY[3], this.imageBoundsNY),
-        SP: L.imageOverlay(base_path+this.imagePaths.CH4.SP[3], this.imageBoundsSP)
+        NY: L.imageOverlay(base_path+this.imagePaths.CH4.NY[3], this.imageBoundsNY, opts),
+        SP: L.imageOverlay(base_path+this.imagePaths.CH4.SP[3], this.imageBoundsSP, opts)
       },
       CO: {
-        NY: L.imageOverlay(base_path+this.imagePaths.CO.NY[3], this.imageBoundsNY),
-        SP: L.imageOverlay(base_path+this.imagePaths.CO.SP[3], this.imageBoundsSP)
+        NY: L.imageOverlay(base_path+this.imagePaths.CO.NY[3], this.imageBoundsNY, opts),
+        SP: L.imageOverlay(base_path+this.imagePaths.CO.SP[3], this.imageBoundsSP, opts)
       },
       HCHO: {
-        NY: L.imageOverlay(base_path+this.imagePaths.HCHO.NY[3], this.imageBoundsNY),
-        SP: L.imageOverlay(base_path+this.imagePaths.HCHO.SP[3], this.imageBoundsSP)
+        NY: L.imageOverlay(base_path+this.imagePaths.HCHO.NY[3], this.imageBoundsNY, opts),
+        SP: L.imageOverlay(base_path+this.imagePaths.HCHO.SP[3], this.imageBoundsSP, opts)
       },
       NIR: {
-        NY: L.imageOverlay(base_path+this.imagePaths.NIR.NY[3], this.imageBoundsNY),
-        SP: L.imageOverlay(base_path+this.imagePaths.NIR.SP[3], this.imageBoundsSP)
+        NY: L.imageOverlay(base_path+this.imagePaths.NIR.NY[3], this.imageBoundsNY, opts),
+        SP: L.imageOverlay(base_path+this.imagePaths.NIR.SP[3], this.imageBoundsSP, opts)
       },
       NO2: {
-        NY: L.imageOverlay(base_path+this.imagePaths.NO2.NY[3], this.imageBoundsNY),
-        SP: L.imageOverlay(base_path+this.imagePaths.NO2.SP[3], this.imageBoundsSP)
+        NY: L.imageOverlay(base_path+this.imagePaths.NO2.NY[3], this.imageBoundsNY, opts),
+        SP: L.imageOverlay(base_path+this.imagePaths.NO2.SP[3], this.imageBoundsSP, opts)
       },
       SO2: {
-        NY: L.imageOverlay(base_path+this.imagePaths.SO2.NY[3], this.imageBoundsNY),
-        SP: L.imageOverlay(base_path+this.imagePaths.SO2.SP[3], this.imageBoundsSP)
+        NY: L.imageOverlay(base_path+this.imagePaths.SO2.NY[3], this.imageBoundsNY, opts),
+        SP: L.imageOverlay(base_path+this.imagePaths.SO2.SP[3], this.imageBoundsSP, opts)
       },
       TEMP: {
-        NY: L.imageOverlay(base_path+this.imagePaths.TEMP.NY[3], this.imageBoundsNY),
-        SP: L.imageOverlay(base_path+this.imagePaths.TEMP.SP[3], this.imageBoundsSP)
+        NY: L.imageOverlay(base_path+this.imagePaths.TEMP.NY[3], this.imageBoundsNY, opts),
+        SP: L.imageOverlay(base_path+this.imagePaths.TEMP.SP[3], this.imageBoundsSP, opts)
       }
     }
 
@@ -190,6 +191,17 @@ export class MapComponent implements OnInit {
       temp[k] = L.layerGroup([obj.NY, obj.SP]);
     }
     L.control.layers({}, temp).addTo(this.map);
+  }
+
+  changeImgDate(month){
+    let base_path = 'assets/imgs/';
+    for(let k in this.imageOverlays){
+      let obj = this.imageOverlays[k];
+      for(let j in obj){
+        let imOv = obj[j];
+        imOv.setUrl( base_path + this.imagePaths[k][j][month]  );
+      }
+    }
   }
 
   chartit() {

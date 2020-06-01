@@ -1,11 +1,19 @@
 <h2 align="center">Covid19 Cases in Brazil</h2>
-<div id="map"></div>
+<div id="map-holder">
+  <div id="date-selector">
+    <input type="radio" name="drone" value="0" (click)="changeImgDate(0)"> Jan
+    <input type="radio" name="drone" value="1" (click)="changeImgDate(1)"> Feb
+    <input type="radio" name="drone" value="2" (click)="changeImgDate(2)"> Mar
+    <input type="radio" name="drone" value="3" checked='true' (click)="changeImgDate(3)"> Apr
+  </div>
+  <div id="map"></div>
+</div>
 <i>Updated at: 31/05/2020</i>
 
 <div id="chart">
   <canvas id="canvas">{{ chart }}</canvas>
   <p>*The baseline is the median value, for the corresponding day of the week,
-     during the 5-week period Jan 3–Feb 6, 2020. Source : 
+     during the 5-week period Jan 3–Feb 6, 2020. Source :
      <a href="https://www.google.com/covid19/mobility/" target="_blank">Google : Covid19 Community Mobility Reports</a></p>
 </div>
 

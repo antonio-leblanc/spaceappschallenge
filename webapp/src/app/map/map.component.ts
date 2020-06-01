@@ -195,9 +195,9 @@ export class MapComponent implements OnInit {
   chartit() {
     var color = Chart.helpers.color;
     var timeFormat = 'MM/DD/YYYY HH:mm';
-
-
-    var covid_colors = ['#de2d26','#fc9272','#000'];
+    
+    
+    var covid_colors = ['#de2d26','#fc8d59','#000'];
     var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
     let datasets = []
 
@@ -242,7 +242,7 @@ export class MapComponent implements OnInit {
         title: {
           display: true,
           text: 'Disease Spread and Social Mobility Changes - São Paulo State',
-          fontSize : 20
+          fontSize : 25  
         },
         legend : {
           labels:{
@@ -279,7 +279,7 @@ export class MapComponent implements OnInit {
       }
     });
 
-    let imgdata_colors = ['#fc8d59','#99d594','#3288bd','#542788'];
+    let imgdata_colors = ['#fc8d59','#0c2c84','#3288bd','#542788'];
     let imgdata_axis = ['y-ax-1','y-ax-2','y-ax-2','y-ax-2']
 
     let datasets2 = []
@@ -311,8 +311,8 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Satellite Image Information',
-          fontSize : 30
+          text: 'Satellite Image Information - São Paulo State',
+          fontSize : 25
         },
         legend : {
           labels:{
@@ -330,20 +330,20 @@ export class MapComponent implements OnInit {
             {
             position: "left",
             id: "y-ax-1",
-            ticks: {fontColor: color('red').rgbString()}
-            },
+            ticks: {fontColor: color(imgdata_colors[0]).rgbString()}
+            }, 
             {
             type: "linear",
             position: "right",
             id: "y-ax-2",
-            ticks: {fontColor: color('green').rgbString()}
-            },
+            ticks: {fontColor: color(imgdata_colors[2]).rgbString()}
+            }, 
           ],
         }
       }
     })
 
-    let ecodata_colors = ['#fc8d59','#99d594','#3288bd','#542788'];
+    let ecodata_colors = ['#de2d26','#fc8d59','#99d594','#3288bd','#542788'];
     let ecodata_axis = ['y-ax-1','y-ax-1','y-ax-2']
     let datasets3 = []
 
@@ -351,8 +351,8 @@ export class MapComponent implements OnInit {
       datasets3.push(
         {
         label: this.ecoData.datasets[i].label,
-        borderColor: color(covid_colors[i]).rgbString(),
-        backgroundColor: color(covid_colors[i]).rgbString(),
+        borderColor: color(ecodata_colors[i]).rgbString(),
+        backgroundColor: color(ecodata_colors[i]).rgbString(),
         fill: false,
         data: this.ecoData.datasets[i].data,
         yAxisID: ecodata_axis[i],
@@ -375,9 +375,15 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          fontSize : 18,
-          text: 'Historical Socio Economic Data'
+          fontSize : 25,
+          text: 'Historical Socio Economic Data - São Paulo State'
         },
+        legend : {
+          labels:{
+            fontSize : 18,
+            boxWidth : 50
+            }
+          },
         scales: {
           xAxes: [{
             type: 'time',
@@ -388,12 +394,12 @@ export class MapComponent implements OnInit {
             {
             position: "left",
             id: "y-ax-1",
-            ticks: {fontColor: color('red').rgbString()}
+            ticks: {fontColor: color(ecodata_colors[0]).rgbString()}
             },
             {
               position: "right",
               id: "y-ax-2",
-              ticks: {fontColor: color('black').rgbString()}
+              ticks: {fontColor: color(ecodata_colors[2]).rgbString()}
               }
           ],
         }

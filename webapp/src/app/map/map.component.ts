@@ -393,7 +393,7 @@ export class MapComponent implements OnInit {
             {
               position: "right",
               id: "y-ax-2",
-              ticks: {fontColor: color('red').rgbString()}
+              ticks: {fontColor: color('black').rgbString()}
               }
           ],
         }

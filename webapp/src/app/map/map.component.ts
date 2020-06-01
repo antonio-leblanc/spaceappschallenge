@@ -84,7 +84,7 @@ export class MapComponent implements OnInit {
         style: (feature) => {
         return {
           // weight: 2,
-          // opacity: 1,
+          // opacity: 1
           color: 'white',
           // dashArray: '3',
           fillOpacity: 0.5,
@@ -189,7 +189,7 @@ export class MapComponent implements OnInit {
       let obj = this.imageOverlays[k];
       temp[k] = L.layerGroup([obj.NY, obj.SP]);
     }
-    L.control.layers({}, temp).addTo(this.map);
+    L.control.layers({}, temp, ).addTo(this.map);
     this.imgLegend();
   }
 
@@ -229,11 +229,11 @@ export class MapComponent implements OnInit {
     var timeFormat = 'MM/DD/YYYY HH:mm';
 
 
-    var covid_colors = ['#de2d26','#fc8d59','#000'];
+    var covid_colors = ['#de2d26','#000','#fc8d59'];
     var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
     let datasets = []
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       datasets.push(
         {
         label: this.covidData.datasets[i].label,
@@ -259,6 +259,17 @@ export class MapComponent implements OnInit {
       )
     }
 
+    datasets.push(
+      {
+      label: this.covidData.datasets[3].label,
+      borderColor: color('blue').rgbString(),
+      backgroundColor: color('blue').rgbString(),
+      fill: false,
+      data: this.covidData.datasets[3].data,
+      yAxisID: "y-axis-3",
+      }
+    )
+
     let lineChartData = {
       labels: this.covidData.labels,
       datasets: datasets};
@@ -273,7 +284,7 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Disease Spread and Social Mobility Changes - São Paulo State',
+          text: 'Disease Spread and Socioeconomical Impact - São Paulo State',
           fontSize : 25
         },
         legend : {
@@ -294,7 +305,8 @@ export class MapComponent implements OnInit {
             position: "right",
             id: "y-axis-1",
             ticks: {fontColor: color('red').rgbString()}
-            }, {
+            }, 
+            {
             type: "linear",
             position: "left",
             id: "y-axis-2",
@@ -305,7 +317,13 @@ export class MapComponent implements OnInit {
               max: 50,
               fontColor: color('green').rgbString()
               }
-            }
+            },
+            {
+            type: "linear",
+            position: "right",
+            id: "y-axis-3",
+            ticks: {fontColor: color('blue').rgbString()}
+            } 
           ],
         }
       }
@@ -408,7 +426,7 @@ export class MapComponent implements OnInit {
         title: {
           display: true,
           fontSize : 25,
-          text: 'Historical Socio Economic Data - São Paulo State'
+          text: 'Socioeconomica Historical Data - São Paulo State'
         },
         legend : {
           labels:{

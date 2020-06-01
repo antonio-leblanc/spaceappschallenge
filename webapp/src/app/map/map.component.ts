@@ -118,9 +118,10 @@ export class MapComponent implements OnInit {
   chartit() {
     var color = Chart.helpers.color;
     var timeFormat = 'MM/DD/YYYY HH:mm';
+    
+    
     var covid_colors = ['#de2d26','#fc9272','#000'];
     var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
-
     let datasets = []
 
     for (let i = 0; i < 3; i++) {
@@ -163,8 +164,15 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Disease Spread and Mobility changes Over Time'
+          text: 'Disease Spread and Social Mobility Changes - São Paulo State',
+          fontSize : 20  
         },
+        legend : {
+          labels:{
+            fontSize : 18,
+            boxWidth : 50
+            }
+          },
         scales: {
           xAxes: [{
             type: 'time',
@@ -184,8 +192,8 @@ export class MapComponent implements OnInit {
             gridLines: {drawOnChartArea: false},
             ticks: {
               beginAtZero: false,
-              min: -100, // minimum value
-              max: 50, // maximum value,
+              min: -100,
+              max: 50,
               fontColor: color('green').rgbString()
               }
             }
@@ -226,13 +234,20 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Satellite Image Information'
+          text: 'Satellite Image Information',
+          fontSize : 30
         },
+        legend : {
+          labels:{
+            fontSize : 18,
+            boxWidth : 50
+            }
+          },
         scales: {
           xAxes: [{
             type: 'time',
             time: {
-              unit:'week',
+              unit:'month',
                 }}],
           yAxes: [
             {
@@ -251,9 +266,11 @@ export class MapComponent implements OnInit {
       }
     })
 
+    let ecodata_colors = ['#fc8d59','#99d594','#3288bd','#542788'];
+    let ecodata_axis = ['y-ax-1','y-ax-1','y-ax-2']
     let datasets3 = []
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       datasets3.push(
         {
         label: this.ecoData.datasets[i].label,
@@ -261,7 +278,7 @@ export class MapComponent implements OnInit {
         backgroundColor: color(covid_colors[i]).rgbString(),
         fill: false,
         data: this.ecoData.datasets[i].data,
-        yAxisID: "y-axis-1",
+        yAxisID: ecodata_axis[i],
         }
       )
     }
@@ -281,17 +298,26 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
+          fontSize : 18,
           text: 'Historical Socio Economic Data'
         },
         scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit:'quarter',
+                }}],
           yAxes: [
             {
-            type: "linear",
-            display: true,
             position: "left",
-            id: "y-axis-1",
+            id: "y-ax-1",
             ticks: {fontColor: color('red').rgbString()}
-            }
+            },
+            {
+              position: "right",
+              id: "y-ax-2",
+              ticks: {fontColor: color('red').rgbString()}
+              }
           ],
         }
       }

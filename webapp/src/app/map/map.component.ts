@@ -18,10 +18,13 @@ export class MapComponent implements OnInit {
   public map;
   public usStates: any;
   public brStates: any;
+  public brCases: any;
   public info: any;
+
   public chart: any;
   public chart2: any;
   public chart3: any;
+
   public covidData: any;
   public mobData: any;
   public ecoData: any;
@@ -38,6 +41,7 @@ export class MapComponent implements OnInit {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
 
+    this.brCases = await this.http.get('assets/data/covid_estados_br.json')
     this.brStates = await this.http.get('assets/data/states_brazil.json')
     this.brStates = L.geoJSON(this.brStates,
       {
@@ -45,11 +49,10 @@ export class MapComponent implements OnInit {
         return {
           // weight: 2,
           // opacity: 1,
-          // color: 'white',
+          color: 'white',
           // dashArray: '3',
-          // fillOpacity: 0.7,
-          // fillColor: 'blue'
-        }},
+          fillOpacity: 0.7,
+          fillColor: this.getColor(this.getCases(feature.properties.uf_05))}},
         onEachFeature: (feature, layer) => {
           layer.on({
             mouseover: this.highlightFeature,
@@ -64,49 +67,25 @@ export class MapComponent implements OnInit {
 
       ).addTo(this.map)
 
-    this.usStates = L.geoJson(this.http.getUSstates(),
-      {
-        style: (feature) => {
-          return {
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7,
-            fillColor: this.getColor(feature.properties.density)
-          };
-        },
-        onEachFeature: (feature, layer) => {
-          layer.on({
-            mouseover: this.highlightFeature,
-            mouseout: (e) => {
-              this.usStates.resetStyle(e.target)
-              this.info.update();
-            }
-          })
-        }
-      }
-    );
-    this.usStates.addTo(this.map);
     var legend = L.control({position: 'bottomright'});
 
     legend.onAdd = map => {
 
       var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+        grades = [0, 500, 1000, 1500, 2000, 5000, 10000],
         labels = [];
-
+        div.innerHTML += '<b>Covid19 Cases</b>'
       // loop through our density intervals and generate a label with a colored square for each interval
       for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-          '<i style="background:' + this.getColor(grades[i] + 1) + '"></i> ' +
-          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+          '<div><i style="background:' + this.getColor(grades[i] + 1) + '"></i> ' +
+          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+ </div>');
       }
 
       return div;
     };
 
-    // legend.addTo(this.map);
+    legend.addTo(this.map);
 
 
     this.info = L.control();
@@ -117,9 +96,11 @@ export class MapComponent implements OnInit {
       return this._div;
     };
 
-    this.info.update = function (props) {
-      this._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
+    this.info.update = (props) => {
+      console.log(this)
+      this.info._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
         '<b>' + props.nome_uf + '</b><br />' + props.regiao
+        + '<br /><b>' + this.getCases(props.uf_05) +' cases <b>'
         : 'Hover over a state');
     };
 
@@ -293,15 +274,18 @@ export class MapComponent implements OnInit {
     })
   }
 
+  getCases(state){
+    return this.brCases[state]
+  }
+
   getColor(d) {
-    return d > 1000 ? '#800026' :
-      d > 500 ? '#BD0026' :
-        d > 200 ? '#E31A1C' :
-          d > 100 ? '#FC4E2A' :
-            d > 50 ? '#FD8D3C' :
-              d > 20 ? '#FEB24C' :
-                d > 10 ? '#FED976' :
-                  '#FFEDA0';
+    return d > 10000 ? '#99000d' :
+      d > 5000 ? '#cb181d' :
+        d > 2000 ? '#ef3b2c' :
+          d > 1500 ? '#fb6a4a' :
+            d > 1000 ? '#fc9272' :
+              d > 500 ? '#fcbba1' :
+                  '#fee5d9';
   }
 
   highlightFeature = (e) => {
@@ -309,7 +293,7 @@ export class MapComponent implements OnInit {
 
     layer.setStyle({
       weight: 5,
-      // color: '#666',
+      color: '#666',
       dashArray: '',
       fillOpacity: 0.7
     });
@@ -317,7 +301,7 @@ export class MapComponent implements OnInit {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       layer.bringToFront();
     }
-    // console.log(layer.feature.properties)
+    console.log(layer.feature.properties.uf_05)
     this.info.update(layer.feature.properties)
   }
 

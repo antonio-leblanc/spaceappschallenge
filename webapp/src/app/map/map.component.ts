@@ -132,8 +132,8 @@ export class MapComponent implements OnInit {
 
     this.info.update = (props) => {
       console.log(this)
-      this.info._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
-        '<b>' + props.nome_uf + '</b><br />' + props.regiao
+      this.info._div.innerHTML = '<h4>Covid Total Cases (30/05)</h4>' + (props ?
+        '<b> State: ' + props.nome_uf + '</b><br />' + props.regiao
         + '<br /><b>' + this.getCases(props.uf_05) +' cases <b>'
         : 'Hover over a state');
     };

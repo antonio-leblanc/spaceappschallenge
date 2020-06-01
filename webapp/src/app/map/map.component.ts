@@ -49,10 +49,13 @@ export class MapComponent implements OnInit {
   public map;
   public usStates: any;
   public brStates: any;
+  public brCases: any;
   public info: any;
+
   public chart: any;
   public chart2: any;
   public chart3: any;
+
   public covidData: any;
   public mobData: any;
   public ecoData: any;
@@ -74,6 +77,7 @@ export class MapComponent implements OnInit {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
 
+    this.brCases = await this.http.get('assets/data/covid_estados_br.json')
     this.brStates = await this.http.get('assets/data/states_brazil.json')
     this.brStates = L.geoJSON(this.brStates,
       {
@@ -81,11 +85,10 @@ export class MapComponent implements OnInit {
         return {
           // weight: 2,
           // opacity: 1,
-          // color: 'white',
+          color: 'white',
           // dashArray: '3',
-          // fillOpacity: 0.7,
-          // fillColor: 'blue'
-        }},
+          fillOpacity: 0.7,
+          fillColor: this.getColor(this.getCases(feature.properties.uf_05))}},
         onEachFeature: (feature, layer) => {
           layer.on({
             mouseover: this.highlightFeature,
@@ -99,49 +102,25 @@ export class MapComponent implements OnInit {
 
       ).addTo(this.map)
 
-    this.usStates = L.geoJson(this.http.getUSstates(),
-      {
-        style: (feature) => {
-          return {
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.1,
-            fillColor: this.getColor(feature.properties.density)
-          };
-        },
-        onEachFeature: (feature, layer) => {
-          layer.on({
-            mouseover: this.highlightFeature,
-            mouseout: (e) => {
-              this.usStates.resetStyle(e.target)
-              this.info.update();
-            }
-          })
-        }
-      }
-    );
-    this.usStates.addTo(this.map);
     var legend = L.control({position: 'bottomright'});
 
     legend.onAdd = map => {
 
       var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+        grades = [0, 500, 1000, 1500, 2000, 5000, 10000],
         labels = [];
-
+        div.innerHTML += '<b>Covid19 Cases</b>'
       // loop through our density intervals and generate a label with a colored square for each interval
       for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-          '<i style="background:' + this.getColor(grades[i] + 1) + '"></i> ' +
-          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+          '<div><i style="background:' + this.getColor(grades[i] + 1) + '"></i> ' +
+          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+ </div>');
       }
 
       return div;
     };
 
-    // legend.addTo(this.map);
+    legend.addTo(this.map);
 
 
     this.info = L.control();
@@ -152,9 +131,11 @@ export class MapComponent implements OnInit {
       return this._div;
     };
 
-    this.info.update = function (props) {
-      this._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
+    this.info.update = (props) => {
+      console.log(this)
+      this.info._div.innerHTML = '<h4>Covid Impacts</h4>' + (props ?
         '<b>' + props.nome_uf + '</b><br />' + props.regiao
+        + '<br /><b>' + this.getCases(props.uf_05) +' cases <b>'
         : 'Hover over a state');
     };
 
@@ -214,9 +195,10 @@ export class MapComponent implements OnInit {
   chartit() {
     var color = Chart.helpers.color;
     var timeFormat = 'MM/DD/YYYY HH:mm';
+
+
     var covid_colors = ['#de2d26','#fc9272','#000'];
     var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
-
     let datasets = []
 
     for (let i = 0; i < 3; i++) {
@@ -259,26 +241,36 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Disease Spread and Mobility changes Over Time'
+          text: 'Disease Spread and Social Mobility Changes - São Paulo State',
+          fontSize : 20
         },
+        legend : {
+          labels:{
+            fontSize : 18,
+            boxWidth : 50
+            }
+          },
         scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit:'week',
+                }}],
           yAxes: [
             {
             type: "linear",
-            display: true,
             position: "right",
             id: "y-axis-1",
             ticks: {fontColor: color('red').rgbString()}
             }, {
             type: "linear",
-            display: true,
             position: "left",
             id: "y-axis-2",
             gridLines: {drawOnChartArea: false},
             ticks: {
               beginAtZero: false,
-              min: -100, // minimum value
-              max: 50, // maximum value,
+              min: -100,
+              max: 50,
               fontColor: color('green').rgbString()
               }
             }
@@ -288,6 +280,8 @@ export class MapComponent implements OnInit {
     });
 
     let imgdata_colors = ['#fc8d59','#99d594','#3288bd','#542788'];
+    let imgdata_axis = ['y-ax-1','y-ax-2','y-ax-2','y-ax-2']
+
     let datasets2 = []
     for (let i = 0; i < 4; i++) {
       console.log(i)
@@ -298,11 +292,10 @@ export class MapComponent implements OnInit {
         backgroundColor: color(imgdata_colors[i]).rgbString(),
         fill: false,
         data: this.imgData.datasets[i].data,
-        // yAxisID: "y-axis-1",
+        yAxisID: imgdata_axis[i],
         }
       )
     }
-
 
     let lineChartData2 = {
       labels: this.imgData.labels,
@@ -318,14 +311,43 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
-          text: 'Satellite Image Information'
+          text: 'Satellite Image Information',
+          fontSize : 30
+        },
+        legend : {
+          labels:{
+            fontSize : 18,
+            boxWidth : 50
+            }
+          },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit:'month',
+                }}],
+          yAxes: [
+            {
+            position: "left",
+            id: "y-ax-1",
+            ticks: {fontColor: color('red').rgbString()}
+            },
+            {
+            type: "linear",
+            position: "right",
+            id: "y-ax-2",
+            ticks: {fontColor: color('green').rgbString()}
+            },
+          ],
         }
       }
     })
 
+    let ecodata_colors = ['#fc8d59','#99d594','#3288bd','#542788'];
+    let ecodata_axis = ['y-ax-1','y-ax-1','y-ax-2']
     let datasets3 = []
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       datasets3.push(
         {
         label: this.ecoData.datasets[i].label,
@@ -333,7 +355,7 @@ export class MapComponent implements OnInit {
         backgroundColor: color(covid_colors[i]).rgbString(),
         fill: false,
         data: this.ecoData.datasets[i].data,
-        yAxisID: "y-axis-1",
+        yAxisID: ecodata_axis[i],
         }
       )
     }
@@ -353,32 +375,44 @@ export class MapComponent implements OnInit {
         stacked: false,
         title: {
           display: true,
+          fontSize : 18,
           text: 'Historical Socio Economic Data'
         },
         scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit:'quarter',
+                }}],
           yAxes: [
             {
-            type: "linear",
-            display: true,
             position: "left",
-            id: "y-axis-1",
+            id: "y-ax-1",
             ticks: {fontColor: color('red').rgbString()}
-            }
+            },
+            {
+              position: "right",
+              id: "y-ax-2",
+              ticks: {fontColor: color('red').rgbString()}
+              }
           ],
         }
       }
     })
   }
 
+  getCases(state){
+    return this.brCases[state]
+  }
+
   getColor(d) {
-    return d > 1000 ? '#800026' :
-      d > 500 ? '#BD0026' :
-        d > 200 ? '#E31A1C' :
-          d > 100 ? '#FC4E2A' :
-            d > 50 ? '#FD8D3C' :
-              d > 20 ? '#FEB24C' :
-                d > 10 ? '#FED976' :
-                  '#FFEDA0';
+    return d > 10000 ? '#99000d' :
+      d > 5000 ? '#cb181d' :
+        d > 2000 ? '#ef3b2c' :
+          d > 1500 ? '#fb6a4a' :
+            d > 1000 ? '#fc9272' :
+              d > 500 ? '#fcbba1' :
+                  '#fee5d9';
   }
 
   highlightFeature = (e) => {
@@ -386,7 +420,7 @@ export class MapComponent implements OnInit {
 
     layer.setStyle({
       weight: 5,
-      // color: '#666',
+      color: '#666',
       dashArray: '',
       fillOpacity: 0.1
     });
@@ -394,7 +428,7 @@ export class MapComponent implements OnInit {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       layer.bringToFront();
     }
-    // console.log(layer.feature.properties)
+    console.log(layer.feature.properties.uf_05)
     this.info.update(layer.feature.properties)
   }
 

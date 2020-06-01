@@ -35,12 +35,14 @@ header {
 .map-frame {
   border: 2px solid black;
   height: 100%;
+  border-radius: 10px;
 }
 
 #map {
   margin: auto;
+  border-radius: 10px;
   width: 80%;
-  height: 500px;
+  height: 600px;
   z-index: 1;
 }
 

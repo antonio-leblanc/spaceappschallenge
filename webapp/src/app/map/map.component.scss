@@ -10,6 +10,25 @@ header {
   font-size: large;
 }
 
+.map-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem;
+  
+  div{
+  height: 4rem;
+  padding: 0.5rem 3rem;
+  font-size: 2.5rem;
+  border-radius: 999px;
+  background-color: rgba(149, 27, 27, 0.657);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 10px 8px #888888;
+  }
+}
+
 .map-container {
   margin: 10px;
 }
@@ -17,6 +36,7 @@ header {
 .map-frame {
   border: 2px solid black;
   height: 100%;
+  border-radius: 10px;
 }
 
 #map-holder{
@@ -39,8 +59,9 @@ header {
 
 #map {
   margin: auto;
+  border-radius: 10px;
   width: 80%;
-  height: 500px;
+  height: 600px;
   z-index: 1;
 }
 
@@ -55,7 +76,7 @@ footer {
   bottom: 0;
   position: fixed;
   width: 100%;
-  border-top: #c6e09b 5px solid;
+  // border-top: #c6e09b 5px solid;
   color: #fff;
   font-size: 18px;
   background-color: #0079a5;

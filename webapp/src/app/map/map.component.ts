@@ -110,7 +110,6 @@ export class MapComponent implements OnInit {
         grades = [0, 500, 1000, 1500, 2000, 5000, 10000],
         labels = [];
         div.innerHTML += '<b>Covid19 Cases</b>'
-      // loop through our density intervals and generate a label with a colored square for each interval
       for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
           '<div><i style="background:' + this.getColor(grades[i] + 1) + '"></i> ' +

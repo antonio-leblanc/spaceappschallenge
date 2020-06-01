@@ -1,4 +1,7 @@
-<h2 align="center">Covid19 Cases in Brazil</h2>
+<div class="map-title">
+  <div>Covid19 Cases in Brazil</div>
+</div>
+
 <div id="map-holder">
   <div id="date-selector">
     <input type="radio" name="drone" value="0" (click)="changeImgDate(0)"> Jan
@@ -8,6 +11,8 @@
   </div>
   <div id="map"></div>
 </div>
+
+<div id="map"></div>
 <i>Updated at: 31/05/2020</i>
 
 <div id="chart">
@@ -19,7 +24,17 @@
 
 <div id="chart">
   <canvas id="canvas2">{{ chart2 }}</canvas>
-  <p>Source: Sentinel 5 Satellite</p>
+  <p>Sources:
+    <a href="https://developers.google.com/earth-engine/datasets/catalog/sentinel-5p">
+      Sentinel 5
+    </a>
+    <a href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR">
+    Sentinel 2
+    </a> 
+    <a href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_006_MOD11A1">
+      MODIS
+    </a>
+    </p>
 </div>
 
 <div id="chart">

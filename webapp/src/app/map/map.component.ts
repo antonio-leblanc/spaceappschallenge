@@ -305,7 +305,7 @@ export class MapComponent implements OnInit {
             position: "right",
             id: "y-axis-1",
             ticks: {fontColor: color('red').rgbString()}
-            }, 
+            },
             {
             type: "linear",
             position: "left",
@@ -323,7 +323,7 @@ export class MapComponent implements OnInit {
             position: "right",
             id: "y-axis-3",
             ticks: {fontColor: color('blue').rgbString()}
-            } 
+            }
           ],
         }
       }

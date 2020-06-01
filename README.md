@@ -2,7 +2,7 @@
 
 ## Description
 
-
+The world is facing a new challenge: The Covid-19 Pandemics. Our social habits have changed, our economies have changed. This platform allows you to visualize different types of data to get a better understanding of the Covid impacts on your region
 
 # Main Data Sources
 

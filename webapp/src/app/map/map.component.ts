@@ -166,16 +166,19 @@ export class MapComponent implements OnInit {
           text: 'Disease Spread and Mobility changes Over Time'
         },
         scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit:'week',
+                }}],
           yAxes: [
             {
             type: "linear",
-            display: true,
             position: "right",
             id: "y-axis-1",
             ticks: {fontColor: color('red').rgbString()}
             }, {
             type: "linear",
-            display: true,
             position: "left",
             id: "y-axis-2",
             gridLines: {drawOnChartArea: false},
@@ -192,6 +195,8 @@ export class MapComponent implements OnInit {
     });
 
     let imgdata_colors = ['#fc8d59','#99d594','#3288bd','#542788'];
+    let imgdata_axis = ['y-ax-1','y-ax-2','y-ax-2','y-ax-2']
+
     let datasets2 = []
     for (let i = 0; i < 4; i++) {
       console.log(i)
@@ -202,11 +207,10 @@ export class MapComponent implements OnInit {
         backgroundColor: color(imgdata_colors[i]).rgbString(),
         fill: false,
         data: this.imgData.datasets[i].data,
-        // yAxisID: "y-axis-1",
+        yAxisID: imgdata_axis[i],
         }
       )
     }
-
 
     let lineChartData2 = {
       labels: this.imgData.labels,
@@ -223,6 +227,26 @@ export class MapComponent implements OnInit {
         title: {
           display: true,
           text: 'Satellite Image Information'
+        },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit:'week',
+                }}],
+          yAxes: [
+            {
+            position: "left",
+            id: "y-ax-1",
+            ticks: {fontColor: color('red').rgbString()}
+            }, 
+            {
+            type: "linear",
+            position: "right",
+            id: "y-ax-2",
+            ticks: {fontColor: color('green').rgbString()}
+            }, 
+          ],
         }
       }
     })

@@ -137,7 +137,7 @@ export class MapComponent implements OnInit {
   chartit() {
     var color = Chart.helpers.color;
     var timeFormat = 'MM/DD/YYYY HH:mm';
-    var covid_colors = ['#de2d26','#fc9272','#fee0d2'];
+    var covid_colors = ['#de2d26','#fc9272','#000'];
     var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
 
     let datasets = []
@@ -171,7 +171,8 @@ export class MapComponent implements OnInit {
     let lineChartData = {
       labels: this.covidData.labels,
       datasets: datasets};
-
+    
+    
     this.chart = new Chart('canvas', {
       type: "line",
       data: lineChartData,
@@ -209,18 +210,18 @@ export class MapComponent implements OnInit {
       }
     });
 
+    let imgdata_colors = ['#fc8d59','#99d594','#3288bd','#542788'];
     let datasets2 = []
-
-    for (var i of [2,4,5]) {
+    for (let i = 0; i < 4; i++) {
       console.log(i)
       datasets2.push(
         {
         label: this.imgData.datasets[i].label,
-        borderColor: color(covid_colors[i]).rgbString(),
-        backgroundColor: color(covid_colors[i]).rgbString(),
+        borderColor: color(imgdata_colors[i]).rgbString(),
+        backgroundColor: color(imgdata_colors[i]).rgbString(),
         fill: false,
         data: this.imgData.datasets[i].data,
-        yAxisID: "y-axis-1",
+        // yAxisID: "y-axis-1",
         }
       )
     }
@@ -241,28 +242,6 @@ export class MapComponent implements OnInit {
         title: {
           display: true,
           text: 'Satellite Image Information'
-        },
-        scales: {
-          yAxes: [
-            {
-            type: "linear",
-            display: true,
-            position: "left",
-            id: "y-axis-1",
-            ticks: {fontColor: color('red').rgbString()}
-            }, {
-            type: "linear",
-            display: true,
-            position: "right",
-            id: "y-axis-2",
-            gridLines: {drawOnChartArea: false},
-            ticks: {
-              beginAtZero: false,
-              min: -100,
-              max: 100,
-              fontColor: color('green').rgbString()
-            }
-          }],
         }
       }
     })

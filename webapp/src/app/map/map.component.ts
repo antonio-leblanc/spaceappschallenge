@@ -191,6 +191,7 @@ export class MapComponent implements OnInit {
       temp[k] = L.layerGroup([obj.NY, obj.SP]);
     }
     L.control.layers({}, temp).addTo(this.map);
+    this.imgLegend();
   }
 
   changeImgDate(month){
@@ -204,11 +205,31 @@ export class MapComponent implements OnInit {
     }
   }
 
+  imgLegend(){
+    let cols = ['#43F2AF', '#6BF589', '#93F764', '#BBFA3E', '#E4FD19', '#FFF100', '#FFC900', '#FFA100', '#FF7800', '#FF5000', '#FF2800', '#FF0000'];
+
+    var legend = L.control({position: 'bottomleft'});
+
+    legend.onAdd = () => {
+
+      var div = L.DomUtil.create('div', 'img legend');
+      div.innerHTML += '<div>Low</div>';
+      for (let i of cols) {
+        div.innerHTML += '<i style="background:' + i + '"></i> ';
+      }
+      div.innerHTML += '<div>High</div>';
+      div.innerHTML += '<div><strong>Satellite Measures</strong></div>';
+      return div;
+    };
+
+    legend.addTo(this.map);
+  }
+
   chartit() {
     var color = Chart.helpers.color;
     var timeFormat = 'MM/DD/YYYY HH:mm';
-    
-    
+
+
     var covid_colors = ['#de2d26','#fc8d59','#000'];
     var mob_colors = ['#c2e699', '#78c679', '#31a354', '#006837'];
     let datasets = []
@@ -254,7 +275,7 @@ export class MapComponent implements OnInit {
         title: {
           display: true,
           text: 'Disease Spread and Social Mobility Changes - São Paulo State',
-          fontSize : 25  
+          fontSize : 25
         },
         legend : {
           labels:{
@@ -343,13 +364,13 @@ export class MapComponent implements OnInit {
             position: "left",
             id: "y-ax-1",
             ticks: {fontColor: color(imgdata_colors[0]).rgbString()}
-            }, 
+            },
             {
             type: "linear",
             position: "right",
             id: "y-ax-2",
             ticks: {fontColor: color(imgdata_colors[2]).rgbString()}
-            }, 
+            },
           ],
         }
       }
@@ -440,7 +461,7 @@ export class MapComponent implements OnInit {
       weight: 5,
       color: '#666',
       dashArray: '',
-      fillOpacity: 0.1
+      fillOpacity: 0.5
     });
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {

@@ -87,7 +87,7 @@ export class MapComponent implements OnInit {
           // opacity: 1,
           color: 'white',
           // dashArray: '3',
-          fillOpacity: 0.2,
+          fillOpacity: 0.5,
           fillColor: this.getColor(this.getCases(feature.properties.uf_05))}},
         onEachFeature: (feature, layer) => {
           layer.on({
@@ -461,7 +461,7 @@ export class MapComponent implements OnInit {
       weight: 5,
       color: '#666',
       dashArray: '',
-      fillOpacity: 0.5
+      fillOpacity: 0.1
     });
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {

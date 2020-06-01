@@ -166,6 +166,12 @@ export class MapComponent implements OnInit {
           text: 'Disease Spread and Mobility changes Over Time'
         },
         scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit:'month',
+
+                }}],
           yAxes: [
             {
             type: "linear",
